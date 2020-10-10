@@ -1,0 +1,703 @@
+\renewcommand*{\afterpartskip}{
+\vfil
+\begin{epigraphs}
+\qitem{\itshape
+“Jo, hvis dét skal kaldes Fakta, saa benægter a Fakta!”
+}{Folketingsmedlem Søren Kjær, i debat med Carl Steen Andersen Bille}
+\qitem{\itshape
+Politik skal ikke videnskabeliggøres. Der findes ikke noget facit i politik – kun følelser og holdninger. Begreber som sandt og falsk eller godt og ondt har ganske enkelt ikke hjemme i det politiske rum. 
+}{Peter Skaarup, i et ugebrev for Dansk Folkeparti, \citeyear{skaarupPolitikErForst2017}}
+\end{epigraphs}}
+
+\part{Analyse}\label{part:analysis}
+
+\chapter{At beskrive den sociale virkelighed}
+
+Denne opgave tager udgangspunkt i, at der antages at være en intersubjektiv social virkelighed, og det er muligt at undersøge denne.
+Jeg læner mig videre op af et socialkonstruktionistisk verdensbillede; hvor denne sociale verden er i kontinuerlig tilblivelse i en kollektiv samskabelsesproces \autocite{gergenSocialkonstruktionismeOgUddannelse2017}.
+Et centralt element i denne samskabelse af en fælles social virkelighed er \textit{sam}talen \autocite[s. 15f]{gergenSocialkonstruktionismeOgUddannelse2017}.
+Ord skaber og former virkeligheden.
+Ikke dermed sagt, at der altid er enighed omkring konturene af denne samskabte sociale virkelighed — heller ikke i politik.
+Dette understreges, måske lidt kækt, af Søren Kjær på titelbladet for denne del af specialet.
+Ikke dermed forstået, at man blankt skal afvise påstande man er uenig i; men at man gerne skal have belæg for hvad, man fremlægger som “fakta”.
+Peter Skaarup argumenterer derimod med et moralistisk udgangspunkt.
+Man ved hvad der er “rigtigt”; og har ikke behov for beviser, for at det rigtige også skal være “sandt”.
+Der er et spil der skal spilles; og præmien er en vis form for kontrol over, hvad der fremstår som “rigtigt”\footnote{
+    Spil-metaforen, kort drøftet i del II, kan også overføres til en socialkonstruktionistisk ramme:
+spillets regler udgør et bagtæppe for deltagernes verdensbillede.
+Dette fordrer specifikke sproglige ritualer og giver specifikke ord særlige betydninger \autocite[s. 24f]{gergenSocialkonstruktionismeOgUddannelse2017}.}.
+
+Jeg vil i det følgende bestræbe mig på, at både præsentere og underbygge mine fakta, i kraft af at ikke have en brik med i det politiske spil.
+Dette gør jeg med udgangspunkt i “trappen” fra del III.
+Undervejs vil jeg belyse mine undersøgelsesspørgsmål, efterhånden som det falder naturligt.
+Jeg vil også illustrere de særegenheder jeg måtte finde i mit datasæt undervejs; da dette har stor betydning for, hvordan jeg griber både forarbejdet og selve analysen an.
+
+\chapter{Indskrænkning af dokumenter til undersøgelse}
+
+Jeg begynder med, at udarbejde et tf-idf objekt for hver analyseperiode.
+En analyseperiode udgør således et korpus, hvor teksten er blevet forhåndsbehandlet og klargjort.
+For at øge analyseværdien har jeg udeladt ord der falder under gennemsnitsværdien for \textit{tf-idf} for dermed at sortere de aller mes hyppigt forekommende ord fra.
+For at undgå, at de aller mest sjældne ord forvrænger analysen, udelukker jeg herefter ord der har en \textit{tf-idf} i de yderste to promille.
+
+Derefter foretager jeg en sammenligning af forskellige modeller for beregning af det optimale emner for videre analyse.
+
+\begin{figure}
+\input{../fig/models_bigrams_no_stopwords_5to125by10.tex}
+\caption{Beregning af optimalt antal emner for videre analyse; bigrams og ingen stopord.}
+\label{fig:modelsFull}
+\end{figure}
+
+Figur ~\ref{fig:modelsFull} (side ~\pageref{fig:modelsFull}) viser en sammenligning af 4 forskellige modeller for udvælgelse af et "optimalt" antal emner for en LDA-baseret topic model.
+Ved at se på kurvene fra disse sammenligninger, konvergerer kurvene omkring de 25--65 emner, inden de bevæger sig opad igen\footnote{Med undtagelse af \autocite{deveaudAccurateEffectiveLatent2014}; der ikke ser ud til at være en særlig hjælpsom algoritme i denne sammenhæng. Muligvis en konsekvens af mit noget specielle datasæt.}.
+Jeg går videre med 45 emner, da det er her; der er flest perioder med en “bund” i sine kurve.
+Et nærmere blik på kurverne giver også nogle indsigter.
+Perioden \textbf{2001 --- 14} flader ud helt op til ca 75 emner, i lighed med “kontrolperioden”\footnote{
+De emner (og de tilhørende dokumenter) vil dog ikke være de samme som begreberne for de individuelle perioder lagt sammen; da modellen laver beregningen på bagrund af alle dokumenterne på en gang.
+Jævnfør “sækken med ord” fra min metodediskussion, er der nu langt flere ord i sækken; og de skal fordeles over flere dokumenter.}
+\textit{all}.
+Dette er formodentlig et produkt af, at disse grupperinger er på top i antal dokumenter at gennemgå; som funktion af deres forholdsvis lange tidsperioder.
+Dermed er jeg igen nået til en subjektiv vurdering:
+Skulle man give hver periode forskelligt antal emner?
+Jeg vælger at ensrette antal emner. 
+Dette både for sammenligningen mellem perioders skyld;
+men også af tidshensyn.
+
+En LDA beregning giver ikke navngivne emner, som sådan.
+I kraft af at være en ikke-superviseret algoritme, bliver dokumenterne fordelt ud over det anviste antal emner\footnote{LDA tildeler dokumenterne en score $\gamma$ mellem 0 og 1 for deres bidrag til et givet emne. Emner er distributioner over begreber; hvor hvert begreb tildeles en score $\beta$ mellem 0 og 1 for at tilhøre et givet emne. \\ \\ Hvert emne $\phi k$ er en multinominel distribution over ordforrådet $W$, og hvert dokument $\theta d$er en multinominel distribution over $K$ emner. Dermed er sandsynligheden for at et givet dokument ($d$) bidrager til emnet $k$ $\theta _{d,k}$; og sandsynligheden for at ord $w$ tilhører et emne $\phi _{k,w}$. De multinominale distributioner for emnet genereres af en konjugat Dirichlet prior((FIXME: dansk begreb?)) $\overrightarrow{\beta}$, og distributionerne for dokumenter på baggrund af en Dirchlet prior $\overrightarrow{\alpha}$. Deraf navnet \textit{“Latent Dirichlet Allocation”} \autocite[s.65f]{deveaudAccurateEffectiveLatent2014}} , i det omfang (algoritmen mener) de ligner hinanden.
+Hvorvidt der er grupperinger der giver mening for mennesker i en social kontekst, og hvilken mening de eventuelt skulle have, er op til forskeren at vurdere.
+Som eksempel præsenteres et udvalg af emnerne genereret for perioden 2001 til 2014 i figur ~\ref{fig:termsFull} (side ~\pageref{fig:termsFull}).
+Emnerne er repræsenteret af de 15 hyppigste termer pr emne, rangeret efter begrebernes vægtning for det pågældende emne.
+
+\begin{figure}
+\begin{adjustwidth}{-1in}{-1in}
+ \input{../fig/terms_bigrams_no_stopwords.tex}
+\end{adjustwidth}
+\caption{Oversigt over udvalgte emner for perioden \textbf{2001 --- 14}, med tilhørende begreber.}
+\label{fig:termsFull}
+\end{figure}
+
+\textbf{Emne 4} er et eksempel på, de mange emner der genereres omkring “administrivia”.
+Folketingsmøder har et særligt, formelt sprog, og dette genspejles i rigtigt mange emner, der omhandler denne slags formalia\footnote{En grov optælling tilsiger ca. 10--12 af denne slags emner for hver periode; med “kontrolperioden” op over 20.}
+
+Der er dog alligevel meget klart, at nogle emner har (pædagogisk) sociologisk relevans.
+\textbf{Emne 5} omhandler tilsyneladende finanspolitik\footnote{Et lignende emne, med mange af de samme begreber, er at finde i alle perioder}.
+Man kan ane den førnævnte aktive socialpolitik i \textbf{emne 6}, og krigerne i Irak og Afghanistan i \textbf{emne 13}.
+Men mest interessant for mit vedkommende er \textbf{emne 20} og \textbf{emne 23}, der er repræsenteret af termerne \textit{“ung menneske”}, \textit{“videregående uddannelse”}, \textit{“i folkeskole”} og \textit{“dansk sprog”} blandt andre.
+Forhenværende børne- og undervisningsminister Christine Antorini gør også en optræden.
+Min udtalelse fra indledningen --- det er få politikere der kan undgå at tale om uddannelse — er også underbygget; idet jeg kan finde emner der indeholder beslægtede begreber for hver analyseperiode.
+
+Jeg vil gerne forsøge at øge mit forhold mellem signal og støj.
+Vil man kunne øge informationstætheden ved at udelukke de mange formalia-relaterede begreber?
+Dette er et oplagt scenarie til brug af \textit{stopord}.
+Jeg bruger en forhåndsgenereret samling af generelle stopord \autocite{stopwords-isoStopwordsISO2020};
+i tillæg til en liste domænespecifikke stopord\footnote{
+for den konkrete stopordsliste se \texttt{lib/stopwords.txt} i specialets Gitub-repositorie \autocite{andersenMasterThesis2020}.}
+jeg selv har udfærdiget.
+Dette viser sig dog at være en blindgyde.
+Kurverne er nu uden det pæne “buk”\footnote{Igen, på nær \autocite{deveaudAccurateEffectiveLatent2014}}, og svinder ned mod 0; uden der er en opadstigende kurve.
+Et uddrag af begreber, med antal emner sat til 45, giver tilsvarende utilfredsstillende resultater.
+At sortere stopordene fra har tilsyneladende medført for stort informationstab til at der er analyseværdi tilbage\footnote{
+Det samme gjorde sig gældende ved andre tiltag for at reducere kompleksiteten i mit materiale —
+det være sig andre øvre eller nedre terskelværdier for filtrering i \textit{tf-idf};
+eller en reduktion af sjældne terner i de genererede \textit{Document-Term Matrices}.}.
+Muligvis ville det være muligt at tilpasse listen af stopord, men dette er blevet udeladt af tidshensyn\footnote{Det tager flere dage til over en uge at sammenligne modellerne}.
+
+Jeg foretager dermed de videre analyser uden stopordslister.
+Men jeg kommer igen til et vurderingsspørgsmål:
+Det er nogle perioder, der har to emner der kan relatere til uddannelse bredt forstået; og andre der kun har en.
+Jeg vurderer, at mere data er mere godt i denne sammenhæng; og tager alle relevante emner med for hver periode.
+
+Men inden jeg dykker ned i uddannelse specifikt, vil jeg gerne se på, hvordan mit datasæt ser ud \textit{i forhold til sig selv}.
+
+\section{Talernes indbyrdes relationer}
+Som tidligere nævnt har hvert datasæt sine særegenheder.
+Jeg formodede i mit metodeafsnit, at der var en forholdsvis stor ensartethed i min samling af taler.
+Min hypotese er, at dette skyldes den noget kunstfærdige situation en tale i Folketinget befinder sig i.
+Talernes kontekst, lejret i det politiske spil, bringer en række rammer for talerne; der i sidste ende formodentlig får en tale til at ligne mange andre.
+Dette er illustreret ved figur ~\ref{fig:dendro_all};
+hvor emnernes indbyrdes relationer for perioden \textbf{2001 --- 14} fremgår\footnote{
+Graferne for de andre perioder kan ses på min blog \autocite{andersenSelectedAssignmentsAarhus2020}}.
+For at bringe denne diskussion tilbage til en sociologisk relevans, kan også visualisere hvilke emner, computeren mener er nært beslægtede\footnote{Dette er en proces kaldet \textit{hierarchical clustering}. Alle emner tildeles en klynge; hvorpå de klynger der er tættest på hinanden slås sammen. Jeg benytter Ward's algoritme til dette, hvor klynger med mindst indbyrdes variation grupperes \autocite{wardHierarchicalGroupingOptimize1963}.} med emnerne omkring uddannelse.\footnote{Jeg har indikeret de emner, jeg trak ud i forrige figur med farve.}
+Vi kan fange vores emner omkring uddannelse, repræsenteret af begreberne \textit{“den ung”} og \textit{“den fri”}.
+
+Også i grendiagrammet er de tæt beslægtede.
+De ser videre ud til, at alle være en del af en stor klynge, der omhandler det almindelige politiske virke.
+Alle mine eksempelemner figurerer i denne klynge.
+Der er videre ikke stor forskel på bladenes højde, i kraft af et forholdsvist homogent datasæt. 
+
+\begin{figure}
+ \input{../fig/cluster_bigrams_no_stopwords_2001-14_k45.tex}
+ \caption{LDA-modellens emner for perioden \textbf{2014 --- 20}, efter indbyrdes relationer. Emner repræsenteres med deres mest fremtrædende begreb.}
+\label{fig:dendro_all}
+\end{figure}
+
+Næste trin i min analyse bliver nu, at se på indholdet i mine udvalgte emner.
+
+Jeg fortsætter, som nævnt, uden stopord; og undersøger de forskellige korpora hver især, og trækker de emner ud\footnote{Emner \textbf{7} og \textbf{17} for \textit{1978 --- 90}; \textbf{17} for \textit{1990 --- 01}; \textbf{20} og \textbf{23} for \textit{2001 --- 14}; og \textbf{25} for kontrolgruppen; hvis den interesserede læser vil følge med i den interaktive visualisation.}, der ser ud til at omhandle uddannelse\footnote{Den interaktive visualisation jeg benytter til at udforske disse LDA-modeller kan (også) findes på min blog \autocite{andersenSelectedAssignmentsAarhus2020}}.
+
+\chapter{Analyse af de udvalgte dokumenter}
+Jeg har nu en samling emner, der ser ud til, at kunne omhandle uddannelse.
+De dokumenter der har højest sandsynlighed for at tilhøre disse emner skal nu trækkes ud til videre analyse, idet en LDA-model, som nævnt, vil tildele alle dokumenter en sandsynlighed for at tilhøre et bestemt emne.
+Jeg vælger de taler, der falder i de øverste 2\% af sandsynlighed for, at tilhøre mine udvalgte emner.
+Dette giver en minimumsværdi for sandsynligheden for at dokumenterne tilhører mine udvalgte emner ($\gamma$) på omkring $~0.1\ldots-0.2$.
+Dette er givetvis ikke særlig højt; men en lavere andel gav rigtigt få dokumenter at arbejde med\footnote{Jeg prøvede også med en minimums\textit{værdi} for $\gamma$; men denne skulle være meget lav før jeg fik en nævneværdig samling dokumenter retur. Derudover var der nogen variation i højeste værdi for $\gamma$ i de forskellige perioder; med tilsvarende variation i antal dokumenter for en given minimumsværdi.}.
+Med grænsen sat ved de højeste 2\%, er der omkring 300 til 1300 antal dokumenter i de periodemæssige korpora.
+
+Med mine dokumenter trukket ud er der tid til en videre analyse.
+
+Først vil jeg se, hvilke emner der er gennemgående i dette subset af dokumenter.
+Derefter vil jeg undersøge, hvorvidt der er emner at trække ud indenfor disse dokumenter; da jeg ikke kun er interesseret i uddannelse generelt, men har en specifik interesse i ungdomsuddannelserne.
+Jeg vil både se nærmere på dette eventuelt forskningsmæssigt interessant subset af data; og også holde øje med, om der er dokumenter der tydeligt ikke omhandler uddannelse inden jeg fortsætter min analyse.
+
+Jeg vil derefter forsøge at at afdække partipolitiske positioner over dette subset.
+
+\section{Emner indenfor uddannelse}
+
+Inden jeg kan analysere på mit subset af emner der (formentlig) omhandler uddannelse,
+foretager jeg en ny søgen efter et fornuftigt antal emner til gennemgang.
+Resultaterne er vist på figur ~\ref{fig:modelsEdu}.
+Denne gang er resultaterne knapt så entydige som de var med den store samling taler.
+\citeauthor{deveaudAccurateEffectiveLatent2014} (\citeyear{deveaudAccurateEffectiveLatent2014} er stadigvæk ikke særlig egnet; og har nu fået selskab af \citeauthor{caojuanDensitybasedMethodAdaptive2009} (\citeyear{caojuanDensitybasedMethodAdaptive2009}).
+Men både \citeauthor{arunFindingNaturalNumber2010} (\citeyear{arunFindingNaturalNumber2010}) og \citeauthor{griffithsFindingScientificTopics2004} (\citeyear{griffithsFindingScientificTopics2004}) kommer med fornuftige bidrag.
+\citeauthor{arunFindingNaturalNumber2010} peger dog konsekvent på flere emner, samtidig som \citeauthor{griffithsFindingScientificTopics2004} er mere stabil i antal foreslåede emner på tværs af mine analyseperioder.
+For at ikke fare vild i en alt for stor samling evner går jeg derfor efter \citeauthor{griffithsFindingScientificTopics2004} sin algoritme, og lander på 25 emner\footnote{Dette er lidt udenfor det “optimale” for \textbf{1978 --- 90}; men det må jeg leve med i ensretningens navn.} for hver periode.
+
+\begin{figure}
+\input{../fig/models_edu_5to125by10.tex}
+\caption{Beregning af optimalt antal emner for dokumentsamlingen vedrørende uddannelse.}
+\label{fig:modelsEdu}
+\end{figure}
+
+\section{Tendenser indenfor uddannelse}
+
+Jeg gentager min udforskning af min \textit{topic model} med LDAvis-biblioteket \autocite{sievertCpsievertLDAvis2020}.
+De genererede emner handler, ganske efter hensigten, overvejende om uddannelse.
+Som eksempel henvises til figur ~\ref{fig:termsEdu} (s. ~\pageref{fig:termsEdu}), hvor jeg vender tilbage til perioden 2001 til 2014 med udvalgte emner og tilhørende begreber.
+
+Det er nu nemt, at genkende de tendenser jeg drøftede i del II.
+For eksempel i \textbf{emne 5}, hvor vi ser arven efter \textit{“uddannelse for alle”}, hvor det efterstræbes at unge gennemfører en uddannelse.
+I \textbf{emne 8} omtales erhvervsuddannelserne i et lidt andet lys.
+Her er der antydninger til den aktive socialpolitik, der har sat sit præg på erhvervsuddannelserne i det 21. århundrede, med begreber som \textit{“social myndighed”} og \textit{“gennemføre en”} (formodentligt efterfulgt af \textit{“erhvervsuddannelse”}).
+Dette bliver fulgt til døren i \textbf{emne 12}, hvor det gennemgående tema er, at man skal have en \textit{“kompetencegivende uddannelse”}.
+
+Og der er også mønstre at undersøge i andre grænseflader mellem uddannelsespolitikken og den pædagogiske sociologi.
+I \textbf{emne 10} skal særlige behov ikke være en hindring; de studerende skal helst fuldføre på \textit{“normeret tid”} i \textbf{emne 13}; og i \textbf{emne 20} træder \textit{“nationale tests”} frem.
+
+\begin{figure}
+\begin{adjustwidth}{-1in}{-1in}
+ \input{../fig/terms_edu.tex}
+\end{adjustwidth}
+\caption{Oversigt over udvalgte emner indenfor uddannelse for perioden \textbf{2001 --- 14}, med tilhørende begreber.}
+\label{fig:termsEdu}
+\end{figure}
+
+Kigger vi på resten af analyseperioderne, udspiller de historiske tendenser i erhvervsuddannelse sig også der.
+I \textbf{1978 --- 90} var den erhvervfaglige grunduddannelse et centralt element, i delvis konflikt med arbejdsmarkedets parter.
+Derudover vil man sikre lighed og frihed gennem en almen uddannelse.
+Dette kan man se i mine emner for perioden\footnote{
+Disse begreber er taget fra et udvalg af emner jeg vurderer har relation til \textit{erhvervsuddannelse}, bredt fortolket.}
+med begreber som \textit{“frihed til”}, \textit{“folketingsbeslutning om”}, \textit{“arbejdsmarked part”}, \textit{“en praktikplads”}, \textit{“langvarig ledighed”}, og \textit{“kompetencegivende uddannelse”}.
+De sidste begreber hentyder til en af de centrale spændingsforhold i erhvervsuddannelserne, der ikke kun er ungdomsuddannelser.
+De har også en central rolle i op- og omkvalificering af voksne.
+
+I 90erne er fokusset på markedsvilkår og arbejdsmarkedet — for både uddannelsesinstitutioner og elever.
+Der er begreber som \textit{“åben marked”}, \textit{“erhvervsgymnasiale uddannelser”} (der er eksplicit rettet mod merkantile eller teknologiske videregående uddannelser) og \textit{“gymnasiale uddannelser”}, \textit{“behov for”} og \textit{“måtte lukke”}.
+
+Perioden efter årtusindeskiftet har vi været inde på.
+Vi skal alle være og blive dygtigere — og dem der ikke kan forvalte dette ansvar selv, skal skubbes i gang.
+Ud over de begreber nævnt ovenfor, vil jeg fremhæve \textit{“en uddannelse”}, \textit{“skulle gennemføre”}, og (gentagne gange) variationer over \textit{“venstre”}.
+Videre kan vi også her vi se spændingen mellem ungdomsuddannelse \textit{“og efteruddannelse”} udspille sig.
+
+I \textbf{2014 --- 20} er der reform efter reform.
+Centrale begreber er \textit{“forberede grunduddannelse”}, \textit{“stu en”}, \textit{“en virksomhed”}, og \textit{“brug for”}.
+Der er ikke mange nye begreber omkring netop mit fokusområde på ungdomsuddannelserne\footnote{men der er andre udviklinger indenfor uddannelse at spore --- forskning og videregående uddannelser er mere fremtrædende, for eksempel}; hvilket kan underbygge min bemærkning fra del II om “ny vin på gamle flasker.
+
+Når vi ser på perioderne sammenlagt, er det gennemgående fokus på \textit{“en uddannelse”} for \textit{“ung menneske”}; med adgang til \textit{“videregående uddannelse”} uden at \textit{“særlige behov”} står i vejen for udvikling af færdigheder.
+
+\section{Uddannelsesemner ligner hinanden}
+
+Det, at jeg har samlet dokumenter der overvejende handler om en ting — uddannelse — 
+fremgår også når de præsenteres i et grendiagram. (~\ref{fig:dendro_edu}, s. ~\pageref{fig:dendro_edu}).
+Emnerne er nogenlunde opdelt i $~4$ klynger; men der er ikke ret stor forskel på højden af de forskellige grene.
+Jeg bider mærke i, at der er et par emner, der ikke omhandler uddannelse; men der til gengæld omhandler andre sociale spørgsmål; repræsenteret af begreberne \textit{“udsætte boligområde”} og \textit{“registreret partnerskab”}.
+Uddannelse er tilsyneladende tæt på andre emner vedrørende samfundsmæssige fordelingaudfordringer.
+Den sidste kan måske også forklares ved, at undervisning har historisk set været tæt forbundet med kirken.
+
+\begin{figure}
+ \input{../fig/cluster_edu_2001-14_k25.tex} 
+\caption{Grendiagram over emner indenfor uddannelse.}
+\label{fig:dendro_edu}
+\end{figure}
+
+\chapter{På vej ned i detaljen}
+
+Ordoptællingen ovenfor gav en del udbytte,
+i forhold til at undersøge hvilke begreber der var sigende for den enkelte periode.
+Det var dermed muligt at genkende trende og tendenser i dansk uddannelsespolitk over tid.
+Det er også en anden gevinst.
+Jeg kan sigte endnu mere skarpt på mit undersøgelsesområde: ungdomsuddannelser bredt forstået; med særligt fokus på erhvervsuddannelserne.
+Jeg foretager nok en sortering i emner og tokens; og trækker ud en håndfuld emner\footnote{
+Hvis man ønsker at undersøge disse i den interaktive model, er det emner \textbf{3, 7, 8, 9} og \textbf{24} for \textit{1978 --- 90};
+\textbf{14, 17, 18, 23} og \textbf{3} for \textit{1990 --- 01}:
+\textbf{5, 8, 10, 12, 22} og \textbf{23} for \textit{2001 --- 14};
+\textbf{1, 3, 5, 6, 9} og \textbf{13} for \textit{2014 --- 20}; 
+og til sidst kontrolgruppen med emnerne \textbf{2, 7, 14} og \textbf{15}.}
+fra mit uddannelsesubset.
+Disse er udvalgt på baggrund af en vurdering om, at de i større end mindre grad omhandler netop mit undersøgelsesområde.
+Jeg vælger denne gang at beholde de øverste 10\% af dokumenter der kunne omhandle ungdomsuddannelser; og står tilbage med mellem 100 og 600 dokumenter for hver analyseperiode.
+
+Nu kan jeg udforske mine undersøgelsesspørgsmål mere i dybden; med et specifikt fokus.
+Jeg lægger ud med et forsøg på, at gøre de politiske positioner omkring uddannelse op, over partipolitiske linjer.
+Derefter vil jeg lave en række holdningsanalyser, for at forsøge at afdække noget om, \textit{hvordan} politikere taler om uddannelse. 
+
+\section{Partipolitiske positioner omkring uddannelse}
+
+Jeg går fra én avanceret måde at lave ordoptællinger til en anden avanceret måde at lave ordoptællinger.
+Denne gang for at undersøge hvordan partiernes taler forholder sig til hinanden.
+Jeg vil benytte mig af den før omtalte \textit{Wordfish}-algoritme \autocite{slapinScalingModelEstimating2008}.
+
+Denne algoritme tager for sig en samling dokumenter der ideelt set omhandler nogenlunde det samme emne (hvorvidt de enkelte dokumenter omhandler det samme emne, og hvad der ingår i et bestemt emne, afhænger af forskerskøn)\footnote{\textit{Wordfish}(et ordspil over ord og den franske betydning af \textit{poisson}) modellerer ordfrekvenser mod en Poisson-distribution; og tildeler en en-dimensionel værdi på baggrund af dette. Dette er også medvirkende til, at algoritmen har det bedst med dokumenter der falder indenfor samme emne; da man ellers risikerer en meget stor spredning i ordfrekvenser dokumenterne i mellem.}.
+\citeauthor{slapinScalingModelEstimating2008} demonstrerer deres analyse på partiprogrammer - først i deres helhed; derefter delt op i politiske interesseområder.
+
+For at se efter generelle tendenser, vil jeg analysere talerne der omhandler (ungdoms)uddannelse på baggrund af politiske fløje.
+Jeg vil også undersøge talerne på partiniveau, for til sidst at foretage en sammenligning af relative positioner fra partiprogrammer kontra politikernes taler.
+
+I denne del af min undersøgelse tager jeg for mig min nye samling folketingstaler der skal analyseres videre; og tildeler dem en politisk fløj på baggrund af politisk parti\footnote{Der er en mangel i mit datasæts metadata; hvor der ikke forefindes partitilhørighed på talere som “statministeren”; “formanden” og så videre. Disse er tildelt “ikke angivet” som blok. Det viste sig dog, at der ikke var nogen observationer i de data jeg havde trukket ud, der faldt i denne gruppe.}.
+Derudover kategoriseres Grønland og Færøerne for sig\footnote{Dette gør det muligt at udelukke disse i mine videre beregninger; for at undgå unødig støj i mine data.}.
+Min opdeling kan ses i tabel ~\ref{tab:party2bloc} på side ~\pageref{tab:party2bloc}.
+Jeg udelukker også nogle mindre partier fra den partispecifikke analyse. De partier der indgår i sammenligningen, er 
+\textit{Enhedslisten},
+\textit{Socialdemokratiet},
+\textit{Socialistisk Folkeparti},
+\textit{Dansk Folkeparti},
+\textit{Venstre},
+\textit{Konservative Folkeparti},
+\textit{Radikale Venstre},
+\textit{Liberal Alliance},
+\textit{Ny Alliance},
+\textit{Alternativet}, og
+\textit{Fremskridspartiet}.
+For ikke at gøre de følgende figurer for svære at læse; er dog
+\textit{Liberal Alliance},
+\textit{Ny Alliance},
+\textit{Alternativet}, og
+\textit{Fremskridspartiet} udeladt fra disse.
+
+\begin{table}
+\caption{Fordeling af partier i politiske blokke}
+\label{tab:party2bloc}
+\begin{adjustwidth}{-0.6in}{-0.6in}
+\begin{tabular}{@{}llll@{}}
+\multicolumn{1}{c}{\textbf{Blå blok}} & \multicolumn{1}{c}{\textbf{Rød blok}} & \multicolumn{1}{c}{\textbf{Centrum}} & \multicolumn{1}{c}{\textbf{Grønland/Færøerne}} \\ \midrule
+Dansk Folkeparti    & Alternativet         & Uden for partierne  & Javnaðarflokkurin              \\
+Venstre         & Enhedslisten         & Radikale Venstre   & Tjóðveldisflokkurin             \\
+Konservative Folkeparti & Socialdemokraterne      & Kristeligt Folkeparti & Fólkaflokkurin               \\
+Fremskridtspartiet   & Socialistisk Folkeparti    & Centrum-Demokraterne & Sambandsflokkurin              \\
+De Uafhængige      & Danmarks Kommunistiske Parti & Ny Alliance      & Atássut                   \\
+Nye Borgerlige     & Venstresocialisterne     & Liberal Alliance   & Siumut                   \\
+            & Fælles Kurs          & Retsforbundet     & Inuit Ataqatigiit              \\
+            & & Liberalt Centrum      &                        \\ \bottomrule
+\end{tabular}
+\end{adjustwidth}
+\end{table}
+
+\textit{Wordfish}-algoritmen beregner positioner fortolket som en venstre-højre akse ud fra dokumenternes ordfordeling sig i mellem.
+En negativ værdi trækker mod venstre; og en positiv værdi mod højre.
+Dokumenternes position holdes uafhængig af hinanden; således at et partis position i periode $t$ ikke påvirkes af positionen i periode $t-1$.
+Forbliver partiernes positioner forholdsvis uændrede, har partierne brugt lignende ord over tid.
+Er der derimod ændringer i hvilke ord der bruges over tid, vil dette vise sig i en ændret position over tid.
+
+Jeg udarbejder et nyt korpus, hvor hvert korpus udgør talerne for hver blok eller parti.
+Disse taler slås sammen til ét dokument pr analyseperiode\footnote{
+Det vil sige, at partier og blokke der ikke fremgår af disse opgørelser er udeladt fra analyserne.
+Da \textit{Wordfish}-algoritmen sammenligner alle de medtagne dokumenter i sin vægtning, vil det risikere at forvride den relative præsentation af partiernes indbyrdes forhold}.
+Ud fra dette tæller jeg op antallet begreber per sammenlagte taler, og laver beregninger ud fra dette.
+Dette gentager jeg for regeringsperioder; for at have en endnu mere detaljeret analyseposition.
+Til sammenligning laver jeg også en \textit{Wordfish}-model, hvor jeg slår alle taler for de politiske blokke sammen fordelt over mine analyseperioder.
+
+Antal observationer for hver inddeling fremgår af tabel ~\ref{tab:obs}.
+Der er en del variation i antal observationer; især hvad angår \textit{Ny Alliance}.
+Jeg bibeholder den ene tale alligevel, som videreførelse af \textit{Liberal Alliance}.
+Rød og Blå blok er, ikke uventet, vel repræsenteret.
+Hvad angår perioderne; er \textbf{1990 --- 01} noget underrepræsenteret.
+Dette er værd at have in mente når vi går ind i de videre analyser.
+Spredningen for taler over regeringsperioderne er forholdsvis stabil; men kan deles op i et noget sparsomt 20. århundrede og en meget mere frugtbart tid efter 2001.
+
+\begin{table}
+ \caption{Oversigt over antal observationer for hver periode, i taler omhandlende uddannelse}
+ \label{tab:obs}
+\begin{adjustwidth}{-.5in}{-.5in}
+\begin{tabular}{lrlrlrlr}
+ Parti          & Taler & Blok    & Taler & Periode & Taler & Regering  & Taler \\
+ \midrule
+ Alternativet      & 6   & Rød Blok   & 305  & 1978 --- 90 & 126  & 1977 --- 1979 &  3 \\
+ Dansk Folkeparti    & 87  & Centrum   & 99  & 1990 --- 01 & 69  & 1979 --- 1981 & 20 \\
+ Enhedslisten      & 49  & Blå Blok   & 269  & 2001 --- 14 & 365  & 1981 --- 1984 & 18 \\
+ Konservative Folkeparti & 48  & ikke angivet & 48  & 2014 --- 20 & 161  & 1984 --- 1987 & 28 \\
+ Liberal Alliance    & 22  &       &    &     &    & 1987 --- 1988 & 11 \\
+ Ny Alliance       & 1   &       &    &     &    & 1988 --- 1990 & 25 \\
+ Radikale Venstre    & 58  &       &    &     &    & 1990 --- 1994 & 11 \\
+ Socialdemokratiet    & 172  &       &    &     &    & 1994 --- 1998 & 15 \\
+ Socialistisk Folkeparti & 66  &       &    &     &    & 1998 --- 2001 & 40 \\
+ Venstre         & 123  &       &    &     &    & 2001 --- 2005 & 97 \\
+             &    &       &    &     &    & 2005 --- 2007 & 62 \\
+             &    &       &    &     &    & 2007 --- 2011 & 134 \\
+             &    &       &    &     &    & 2011 --- 2015 & 89 \\
+             &    &       &    &     &    & 2015 --- 2019 & 112 \\
+             &    &       &    &     &    & 2019 ---    &  8 \\
+ \bottomrule
+ \end{tabular} 
+\end{adjustwidth}
+ \end{table}
+
+ \subsection{Politisk bevægelse over tid}
+
+I figur ~\ref{fig:fish_blocXperiod} fremgår der, hvordan \textit{Rød Blok}, \textit{Centrumspartierne} og \textit{Blå Blok} har positioneret sig over analyseperioderne efter en \textit{Wordfish}-beregning.
+Ud fra de udvalgte taler og partier, ser vi rød blok solidt til venstre i \textbf{1978 --- 90}, med centrumspartierne og blå blok positioneret forventeligt.
+Men så begynder en “sund fornufts-forventning” at blive vendt på hovedet.
+Rød blok er stadigvæk solidt til venstre i \textbf{1990 --- 01}; men skifter position med blå blok i \textbf{2001 --- 14}; for derefter at gentage bedriften i \textbf{2014 --- 20}.
+Centrumspartierne og blå blok har også skiftet position i \textbf{1990 --- 01}; hvorefter partierne i centrum holder sig solidt i midten.
+Dette noget underfundige resultat kan skyldes et for spinkelt datagrundlag.
+Jeg har dog et bud på en anden hypotese; som jeg vil vende tilbage til.
+
+\begin{figure}
+ \input{../fig/wordfish_sec_edu_blocs_period.tex}
+\caption{Politiske blokkes politiske positioner over analyseperioderne}
+\label{fig:fish_blocXperiod}
+\end{figure}Her ser vi, hvordan blokkene har ændret position i hver analyseperiode.
+Der er nogen bevægelse i de forskellige blokke, men de relative positioner er forholdsvis stabile. 
+
+\begin{figure}
+\begin{adjustwidth}{-1in}{-1in}
+ \input{../fig/wordfish_sec_edu_parties_period.tex}
+\end{adjustwidth}
+\caption{Politiske partiers politiske positioner over analyseperioderne}
+\label{fig:fish_partyXperiod}
+\end{figure}
+
+Figur ~\ref{fig:fish_partyXperiod} viser de politiske partiers bevægelser i løbet af mine analyseperioder.
+Man kan se \textit{Socialdemokratiet} og \textit{Socialistisk Folkeparti} bevæge sig mere mod højre, en tendens disse partier deler med blandt andre \textit{Radikale Venstre} og, påfaldende nok, \textit{Enhedslisten}; med \textit{Dansk Folkeparti} i en klar bevægelse mod venstre; sammen med \textit{Konservative Folkeparti}.
+Det overvejende indtryk af grafen er i sidste ende en generel samling mod højre, med et par afstikkere i bestemt opposition.
+
+Når det er sagt, er denne graf ikke nødvendigvis særlig oplysende i min konkrete problemstilling; med et noget ujævnt datagrundlag som største udfordring.
+
+\begin{figure}
+\begin{adjustwidth}{-1.65in}{-1.5in}
+ \input{../fig/wordfish_sec_edu_blocs_govt.tex}
+\end{adjustwidth}
+\caption{Blokkes politiske positioner over regeringsperioder fra 1978 til 2020}
+\label{fig:fish_blocsXgovt}
+\end{figure}
+
+Når jeg tager de politiske blokke, og stiller deres politiske positioner op mod specifikke regeringsperioder, er det noget nemmere at se en udvikling.
+Meget af det mudrede billede i 90'erne kunne muligvis med rette tilskrives et spinkelt datagrundlag.
+Men min hypotese (som jeg lader ligge i denne omgang) er, hvorvidt og hvorledes politikeres udtalte politiske positioner påvirkes af at være i eller udenfor opposition til den siddende regering.
+En gennemgang af dette mulige mønster vil kræve et noget anderledes undersøgelsesdesign og strukturering af data.
+Det ville også være mere lige til for en politolog end for en sociologs.
+
+\subsubsection{Partiprogammer kontra taler}
+
+Jeg har lige undersøgt, hvordan politkeres taler omkring uddannelse arter sig på en venstre-højre akse.
+Men er der samsvar mellem partiernes udtalte holdninger og deres udtalelser?
+
+Inspireret af \citeauthor{slapinScalingModelEstimating2008} (\citeyear{slapinScalingModelEstimating2008}), har jeg gennemgået de nuværende partiprogrammer fra de større danske partier\footnote{Data til dette lille eksperiment blev alle samlet ind fredag 9. oktober fra partiernes hjemmesider \autocite{enhedslistenUddannelseOgForskning2020, socialistiskfolkepartiSkoleUddannelseOg2020, socialdemokratietErhvervsuddannelserSocialdemokratiet2020, socialdemokratietGymnasiumSocialdemokratiet2020, socialdemokratietVideregaendeUddannelseSocialdemokratiet2020, socialdemokratietUddannelseSocialdemokratietsUddannelsespolitik2020, radikalevenstreUngeOgUddannelse2020, detkonservativefolkepartiUddannelseOgSkole2020,venstrePrincipprogram20162016, danskfolkepartiDanskFolkepartisPrincipprogram2020, danskfolkepartiUddannelseDanskFolkeparti2020}.}.
+Jeg har trukket det materiale ud, der omhandlede uddannelse, bredt forstået, og lavet en ny \textit{Wordfish}-analyse på dette materiale.
+
+Dette sammenligner jeg med en \textit{Wordfish} analyse over den seneste folketingsperiode\footnote{Jeg sammensatte mit datasæt i Januar 2020. Der er dermed taler med for ultimo 2019 i denne model.}
+I figur ~\ref{fig:fish_comp} (s. ~\pageref{fig:fish_comp}) kan vi se, at \textit{Socialdemokratiet}, \textit{Radikale Venstre} og \textit{Dansk Folkeparti} har et godt samsvar med deres officielle position og deres politikeres folketingstaler.
+Det er også påfaldende, at \textit{Socialdemokratiet} lægger sig lige til højre for midten.
+\textit{Venstre} har derimod en meget stor spredning.
+Deres partiprogram er solidt til højre; men deres udtalelser er derimod 
+kraftigt til venstre.
+\textit{Enhedslisten} har også en lignende, om ikke lige stor, spredning, dog med modsat fortegn.
+Også \textit{Socialistisk Folkeparti} og \textit{Radikale Venstre} har en vis spredning; om end ikke helt så udtalt.
+
+Overvejende er der overensstemmelse med positionerne til partiernes politiske programmer og en “sund fornuft” forventning.
+Den til tider store spredning mellem folketingstalerne og partiprogrammerne inviterer til gengæld til en mere gennemgående undersøgelse, eventuelt med en større mængde data til sammenligning.
+
+\begin{figure}
+ \input{../fig/wordfish_compare.tex} 
+ \caption{Sammenligning af positioner omkring uddannelse i partiprogrammer og den seneste regeringsperiode.}
+\label{fig:fish_comp}
+\end{figure}
+
+\subsection{Hvilke begreber er kendetegnende for de politiske fløje over tid?}
+
+Man kan også undersøge de værdier, \textit{Wordfish}-algoritmen har tildelt de enkelte begreber.
+Jeg laver en beregning over taler slået sammen for hver analyseperiode, og kan der dermed undersøge, hvilke begreber der trækker mod venstre og henholdsvis højre.
+Man kan også se, hvilke termer der forholder sig neutrale.
+
+Ved at se på figur\footnote{For indsigternes skyld har jeg sorteret uinteressante fyldord, gentagelser og navne fra i diagrammet.} ~\ref{fig:coef_blocXperiod}\footnote{Den noget karakteristiske form (“Et Eiffel-tårn af ord”, som beskrevet af \citeauthor{slapinScalingModelEstimating2008}) kommer af, at politisk neutrale ord ikke får tildelt en positiv eller negativ vægtning; og vil ikke trække et parti eller en blok i en bestemt retning.
+Ord der bliver brugt ofte af alle parter, med andre ord, er i udgangspunktet politisk neutrale \autocite[s. 709]{slapinScalingModelEstimating2008}},
+fremgår der, at fraser som \textit{“det være”}, \textit{“være en”} er så almindelige, at de ikke indgår i tildeling om emnet.
+Ved “tårnets” base finder vi begreber der har mere vægtning indenfor uddannelse; uden at være værdiladede.
+Politikere er tilsyneladende optagede \textit{“af evaluering”} og at \textit{“ændre folkeskolelov”}, uden at det er grundlag for stor uenighed.
+
+Begreberne \textit{“rigtig praktikplads”} og \textit{udsætte boligområde”} indikerer en venstrerettet position.
+Boliger er ikke som sådan forbundet med uddannelse direkte.
+Dette tyder dog (igen) på, at uddannelsespolitik i høj grad også er situeret som socialpolitik.
+I de højreladede termer forholder politikerne sig til arbejdsmarkedet og industrien.
+De, der er i \textit{“langvarig ledighed”} kan få \textit{“arbejdstilbud til”}; og der skal og være praktikpladser. Dog ikke med fokus på, at den skal være \textbf{rigtig}.
+
+\begin{figure}
+\begin{adjustwidth}{-8em}{-8em}
+ \input{../fig/coef_sec_edu.tex}
+\end{adjustwidth}
+\caption{Ordfordeling og vægtning for de politiske blokke, set som helhed over mine analyseperioder.}
+\label{fig:coef_blocXperiod}
+\end{figure}
+
+Med et overblik over ordfordeling og vægtning for hele mit datagrundlag, kan vi nu udlede samme data for de enkelte analyseperioder.
+Ordfordelingen for hver periode kan aflæses i tabel ~\ref{tab:lrterms}, hvor de centrale begreber der giver venstre, højre, og neutral vægtning for hver periode fremgår.
+
+Der er, også her, en del “administrivia” at se.
+Men der er alligevel tydelige (om ikke nødvendigvis \textit{overraskende}) forskelle mellem venstre og højre at spore.
+Begreberne på venstre side vil have \textit{“eleven med”} til et \textit{“godt undervisningsmiljø”} med \textit{“varieret undervisning”}.
+Og igen trænger socialpolitikken sig på, med et fokus på \textit{“social myndighed”}.
+Mod højre er fokuset i langt højere grad på produktion og innovation.
+En \textit{“teknisk uddannelse”} vil kunne føre til en \textit{“egen virksomhed”}.
+Vil man dygtiggøre sig, skal der være \textit{“en uddannelsesgaranti”}.
+Og uddannelserne skal have et \textit{“højt fagligt”} niveau.
+
+I de mere neutrale begreber ser vi, som forventet, flere almindelige fraser.
+De sociale problematikker er også med her; og der skal være \textit{“adgang”} og muligheder.
+
+\begin{table}
+\caption{Oversigt over begrebsvægtning efter en \textit{Wordfish} beregning af talerne i analyseperioderne.}
+\label{tab:lrterms}
+\begin{adjustwidth}{-9em}{-9em}
+\begin{tabular}{lp{2in}p{2in}p{2in}}
+\input{../fig/table_coef_terms_sec_edu.tex}
+\end{tabular}
+\end{adjustwidth}
+\end{table}
+
+\section{Hvordan taler politikere \textit{om} uddannelse?}
+Ovenfor har jeg givet en visualisering af de politiske partiers relative positioner omkring uddannelse.
+Der var måske ikke de store overraskelser, men jeg fandt det påfaldende, at se hvordan uddannelses- og socialpolitik fletter sig ind i hinanden.
+
+Dette siger dog ikke noget om \textit{tonen} i talerne.
+Ved hjælp af biblioteket \textit{SENTIDA} udarbejder jeg en holdningsanalyse, hvor jeg tildeler talerne en holdningsværdi; både for talen i sin helhed og for de individuelle sætninger talene er bygget op af.
+Er talen eller sætningen overvejende positiv; får den en positiv værdi, og er den negativ, gives der en negativ værdi\footnote{Der udarbejdes to værdier, for at være præcis: en gennemsnitslig holdningsscore for sætningen, og en score for sætningens totale holdningsværdi. Jeg har derudover beregnet minimums- og maksimumsværdier for de enkelte sætninger i talerne; samt en gennemsnits- og totalværdi for talernes holdningsscore som helhed.}.
+Dermed kan man undersøge, hvilke grupperinger i Folketinget taler overvejende positivt eller negativt.
+Jeg vil i det følgende se efter iøjnefaldende mønstre til videre undersøgelse, og derefter trække enkelte taler og sætninger ud til gennemgang.
+
+Jeg lægger ud med en gennemgang af antallet positive og negative sætninger i politikernes taler.
+Udgangspunktet for beregningerne er mit uddrag af data, der (formodentlig) har med ungdomsuddannelser at gøre.
+
+Figur ~\ref{fig:sentcount} er en optælling af antallet positive og negative sætninger i talerne i mit (ungdoms)uddannelses-datasæt.
+Her kan man også se, hvilke partier har haft mest på hjertet; da flere og lengere taler ganske naturligt vil give flere sætninger.
+Men med \textit{forholdet} mellem positive og negative taler med i figuren er der muligvis indsigter at høste.
+Partierne ligger alle omkring 2,5 i større eller mindre grad; med \textit{Venstre} og \textit{Socialdemokratiet} som dem, der har mest på hjertet om uddannelse (og relaterede emner) - både positivt og negativt; tæt fulgt af \textit{Radikale Venstre}.
+\textit{Enhedslisten} har til gengæld størst andel positive taler - men færrest taler i absolutte tal.
+For at se på, hvad der ligger bagved denne fordeling, er næste trin at se på holdningsværdierne, og det tekstmateriale der ligger til grund for dem.
+
+\begin{figure}
+\begin{adjustwidth}{-1.5in}{-1in}
+ \input{../fig/count_sent_sec_edu_parties.tex}
+\end{adjustwidth}
+\caption{Antal positive og negative sætninger i partiernes taler}
+\label{fig:sentcount}
+\end{figure}
+
+I figur ~\ref{fig:sent_minmax} arbejder jeg videre med mine holdningsanalyser. Figuren viser partiernes\footnote{
+Jeg holder mig til det udvalg af partier jeg har benyttet mig af tidligere}
+spredning mellem lave og høje totalværdier for sætningernes holdningsscore, fordelt over mine analyseperioder som helhed.
+
+Som udgangspunkt ser det ud til, at (ungdoms)uddannelse overvejende omtalt i en positiv kontekst.
+\textit{Venstre} udmærker sig med den højeste totalværdi; og \textit{Dansk Folkeparti} har den mest negative sætning omkring uddannelse.
+
+\begin{figure}
+ \input{../fig/sent_minmax_sec_edu.tex} 
+ \caption{Taler fra (ungdoms)uddannelses korpus, spredning mellem sætningernes yderligste holdningsværdi.}
+\label{fig:sent_minmax}
+\end{figure}
+
+For at undersøge, hvad der (tilsyneladende) virker polariserende i dansk politik, trækker jeg talerne ud der ligger i top tre for høj og lav total holdningsværdi\footnote{Nogle af talerne har en meget høj total score; hvor næsten hele talen er blevet regnet med i beregningen. Dette er tydeligvis en begrænsning i algoritmen, der skal tages højde for hvis disse metoder skal anvendes i anden sammenhæng. Jeg ser dog stadigvæk god analyseværdi i resultaterne; og bringer dem med i videre analyser.} for hvert parti, sammen med den tale de er udledt af.
+Det viser sig igen, at uddannelsespolitik er tæt knyttet til socialpolitik, hvor flere af sætningerne er fra taler knyttet til kriminalitet eller arbejdsmarkedspolitik.
+Et blik på indholdet af udvalgte taler viser, at en positiv eller negativ holdningsscore ofte er en respons på egne eller andres politikker\footnote{Og også responser til \textit{andre politikere}; og i mindre grad indikerende for en holdning til uddannelse.}
+Dette vil jeg nu uddybe med nogle eksempler, med positivt ladede sætninger først.
+
+\begin{quotation}
+\ldots nøglen til at øge den sociale mobilitet er bl.a., at børn og unge har mulighed for at tilegne sig de færdigheder, der skal til for at påbegynde en videregående uddannelse\ldots
+\sourceatright{\textit{Venstre} $78.84$}
+\end{quotation}
+
+\textit{Venstre} har, i uddrag, en tale hvor de starter med at være meget enige i et uddannelses-udspil.
+Men efterhånden som talen skrider frem, handler det lige meget om, at bruge taletiden til at fortælle om \textit{Venstres uddannelsespolitik}.
+Begreber som \textit{“social mobilitet”} og \textit{“arbejdsmarkedets behov”} er gennemgående, alt i et “human resource” perspektiv:
+Ved at tilrettelægge muligheder til uddannelse og udvikling alle, tjener samfundet på det.
+
+\begin{quotation}
+\ldots vi skal have mange flere unge mennesker til at tage en erhvervsuddannelse, og det skal vi ikke kun, fordi det er vigtigt for vores samfund, at vi også har faglærte i fremtiden, men fordi det er rigtig fedt at tage en erhvervsuddannelse\ldots
+\sourceatright{\textit{Socialistisk Folkeparti} $52.90$}
+\end{quotation}
+
+Dette uddrag fra en længere tale fra \textit{Socialistisk Folkeparti} understreger behovet for at flere søger erhvervsuddannelser.
+Der anerkendes, at samfundet har behov for faglærte; men hovedargumentet er, at gøre det \textit{attraktivt} at tage en erhvervsuddannelse.
+
+\begin{quotation}
+\ldots hvad vil det nemlig sige, at man udvikler den unges personlige kompetencer\ldots
+\sourceatright{\textit{Dansk Folkeparti} $44.41$}
+\end{quotation}
+Denne sætning fra \textit{Dansk Folkeparti} er, trods den høje score, en længere tirade overfor konceptet \textit{“den fri ungdomsuddannelse”}.
+Der bliver leveret en række positivt ladede ord; men i en sarkastisk kontekst.
+En holdningsanalyse er dermed kun et skridt på vejen til indsigter i politikernes faktiske holdninger
+
+Jeg går nu over til sætninger med høj negativ totalværdi.
+
+\begin{quotation}
+\ldots senest er det dokumenteret, at der er en klar sammenhæng eller i hvert fald et klart sammenfald imellem de elever, som har svage boglige forudsætninger og har fået dårlige karakterer ved 9.-klasses-prøven, og så de elever, som falder fra i erhvervsuddannelserne og aldrig får en uddannelse.
+\sourceatright{\textit{Venstre} $-8,08$}
+\end{quotation}
+
+\textit{Venstre} kommenterer klart og nøgternt, hvad der er af problemer at løse omkring ungdomsuddannelse.
+Problemerne --- der i øvrigt, skal der påpeges, forhindrer tilknytning til arbejdsmarkedet — er, ikke overraskende, negativt ladet.
+
+\begin{quotation}
+det forekommer også, at fanden læser bibelen bedre, end hr. frank dahlgaard læser undersøgelsesrapporten. f.eks. konkluderer rapporten, at der ikke er nogen sikker indikation af, at problemet er stigende 
+\sourceatright{\textit{Enhedslisten} $-5,67$}
+\end{quotation}
+
+Denne sætning fra \textit{Enhedslisten} er et meget tydeligt eksempel på, at politikere bruger taletid på, at stille andre politikere i et dårligt lys.
+
+\begin{quotation}
+vi lader regelsættet stå, indtil det giver problemer, og når det giver problemer, så afskaffer vi salmesang og fadervor.
+\sourceatright{\textit{Dansk Folkeparti} $-7,83$}
+\end{quotation}
+
+\textit{Dansk Folkeparti} har igen en sætning (og en tale) i en sarkastisk ånd, hvor der overhovedet ikke er problemer med \textit{kristne} bønne til morgensamlinger.
+En muslimsk bøn, til gengæld, vil skulle betyde afskaffelse af kirkebesøg til højtider og konfirmationsundervisning i folkeskolen; ja, nærmest en aflysning af dansk kultur.
+
+En totalværdi vil dog kunne give et delvist misvisende billede; da lange sætninger vil, som vist, have større mulighed for en højere score.
+Figur ~\ref{fig:sent_meanminmax}, der viser spredning i den gennemsnitlige holdningsværdi for talernes sætninger, ligner i første øjekast figur ~\ref{fig:sent_minmax}.
+Men når vi kigger nærmere på figuren, er der vigtige forskelle.
+Andelen taler der har en negativ holdningsværdi er nu markant højere, og der er flere taler der i større grad afviger fra klyngen i midten.
+
+Det betyder dog ikke, at informationstætheden er blevet højere.
+Især ved høje positive gennemsnitsværdier bliver høflighedsfraser altoverskyggende, som i dette eksempel fra \textit{Venstre}:
+
+\begin{quotation}
+tak for det
+\sourceatright{\textit{Venstre} $3.17$}
+\end{quotation}
+
+Vel er høflighed en dyd; men det siger givetvis ikke ret meget, når det er en fast indledning til de fleste taler.
+En analyse med et lille udvalg stopord ville muligvis være værd at afprøve.
+I sætningerne med negativ gennemsnitlig værdi er der mere at komme efter.
+Der er, også her, flere andre sociale problematikker end uddannelse at se; men ikke dermed sagt, at uddannelse ikke bliver nævnt.
+
+\begin{quotation}
+ det gør vejen videre endnu sværere for dem, for så har vi påført dem nederlag.
+ \sourceatright{Enhedslisten, $-1,69$}
+\end{quotation}
+
+\begin{quotation}
+så sætter vi nogle strikse regler ind, og der er straf og sanktioner.
+\sourceatright{\textit{Socialistisk Folkeparti}, $-1,96$}
+\end{quotation}
+
+Både \textit{Enhedslisten} og \textit{Socialistisk Folkeparti} har sætninger der er negativt ladede; i taler der kritiserer gældende regler for ungdomsuddannelserne.
+\textit{Enhedslisten} advarer mod, at presse unge til en uddannelse de ikke er klar til; og \textit{Socialistisk Folkeparti} harselerer over at sætte sanktioner ind i stedet for at skabe motiverende undervisning.
+Jeg nævnte også den aktive socialpolitik og et fokus på at få flere i uddannelse som nogle af erhvervsuddannelsernes udfordringer i senere tid; noget det lader til, ikke er gået alle politikere forbi.
+
+\begin{figure}
+ \input{../fig/sent_meanminmax_sec_edu.tex} 
+\caption{Taler fra (ungdoms)uddannelses korpus, spredning mellem sætningernes gennemsnitlige holdningsværdi.}
+\label{fig:sent_meanminmax}
+\end{figure}
+
+Ved holdningsanalyserne på taleniveau vælger jeg ikke, at bruge talernes totale holdningsværdi; da den store mængde ord giver voldsomt høje tal.
+Jeg vil dog se nærmere på talerne med de højeste og laveste gennemsnitsværdier.
+Som figur ~\ref{fig:sent_doc_mean} viser, har den store mængde ord forskøvet fordelingen af taler opefter; hvor meget få taler har en score under 0; og de fleste taler er klumpet sammen omkring $0,2-0,7$.
+Der er dog nogle afstikkere; både positiv og i negativ retning; og jeg vil gennemgå et udvalg\footnote{Jeg trækker teksten ud af mit (delvist - alle ord er med små bokstaver) ubearbejdede korpus; med småfejl som følge af PDF-til-tekst processen.} af disse nu.
+
+\begin{quotation}
+det virker, som om det er lidt af en sygdom, der er udbredt i dag. ordføreren fik ikke svaret på det spørgsmål, jeg stillede, for jeg spurgte jo: bliver vi i danmark klogere eller dummere med det finanslovforslag, der her er fremsat? vil den konservative ordfører ikke nok svare på det: bliver vi klogere eller dummere af, at vi nu skal skære massivt på voksen- og efteruddannelsen for de danskere, som har fået mindst uddannelse fra starten? bliver vi klogere eller dummere af, at vko nu tvinger kommunerne ud i voldsomme besparelser på vores børns folkeskole? bliver vi klogere eller dummere af, at man skærer 3,8 mia. kr. på uddannelse og forskning? bliver vi klogere eller dummere af, at der står 9.000 unge mennesker og mangler en praktikplads, hvor regeringens svar er, at man nu skærer yderligere 1.500 skolepraktikpladser? bliver vi klogere eller dummere af det? spørger jeg hr. mike legarth. det er sådan set et ja- eller nejspørgsmål\sourceatright{\textit{Enhedslisten}, $-0,02$}
+\end{quotation}
+
+\textit{Enhedslisten} går nok en gang i kødet på andre politikere.
+Der er besparelser på vej, og der søges svar på, om der er tænkt følgevirkninger og konsekvenser igennem.
+Spørgsmålene er alle stillet fra et perspektiv omkring social udligning.
+Der lader til at være en holdning om, at staten har et ansvar for at stille muligheder op for de borgere, der ikke har de bedste forudsætninger
+
+\begin{quotation}
+vi afskaffer ikke skolepraktikordningen, medmindre vi har noget brugbart at sætte i stedet, og det er selvfølgelig, fordi vi under ingen omstændigheder vil lade de unge mennesker i stikken. de unge mennesker skal have en uddannelse. skolepraktikken er ikke den mest ideelle måde at give de unge mennesker en uddannelse på, men vi skal holde fast i, at de trods alt får en uddannelse, medens de er i et skolepraktikforløb. med hensyn til hvad vi kan sætte i stedet, eller hvordan vi kan forbedre unges uddannelsesmuligheder, er vi som nævnt ved at se på det i forbindelse med handlingsplanen bedre uddannelse«, og det vil jeg gerne have lejlighed til at vende tilbage til.
+\sourceatright{\textit{Venstre}, $0,87$}
+\end{quotation}
+
+\textit{Venstre} vil gøre det bedste ud af en skidt situation, og vinder en ret positiv score på den baggrund.
+Det kan godt være; at en skolepraktikordning er som at komme på B-holdet kontra en “rigtig” praktikplads (jævnfør erhvervsuddannelsernes udfordringer med at stille nok praktikpladser til rådighed; og det langvarige spændingsforhold mellem skoleundervisning og mesterlære i erhvervsuddannelsernes historie), men en skolepraktikplads er trods alt bedre end slet ingen praktikplads. Ikke?
+
+\begin{quotation}
+det konservative folkeparti støtter naturligvis også forslaget. det er meget vigtigt, at vi får hævet erhvervsuddannelsernes anseelse. det er vigtigt, at vi får tiltrukket flere talentfulde unge til erhvervsuddannelserne. det er afgørende både for dansk økonomi og for virksomhederne og også for de unges personlige udvikling, at de får valgt den rette hylde, hvor deres talenter kan udfolde sig. der er alt for få unge mennesker, som er opmærksomme på, at erhvervsuddannelserne er nogle rigtig gode uddannelser. for at vi kan tiltrække talenter, er det vigtigt, at erhvervsuddannelserne ikke bliver opfattet som en blindgyde, og at man kan læse videre fra en erhvervsuddannelse. det er klart, at hvis man er et meget talentfuldt og ambitiøst ungt menneske, vil man gerne have, at der er muligheder for at videreuddanne sig, og at man ikke nødvendigvis skal gå over det almene gymnasium for at kunne læse videre. vi så alle sammen for nylig en undersøgelse, der viste, at der var en høj grad af dobbeltuddannelse, hvor der var unge mennesker, der valgte først at læse på gymnasiet og derefter tage en erhvervsuddannelse. det her forslag kan jo rette lidt op på det, fordi det vil betyde, at de unge mennesker ikke føler, at det er nødvendigt at læse på gymnasiet for at have en chance for at komme videre i uddannelsessystemet. derfor støtter vi meget varmt det her forslag. vi synes, det giver nogle rigtig gode muligheder. det giver mulighed for at få flere ambitiøse unge mennesker ind på erhvervsuddannelserne, og det har vi brug for. samtidig håber vi selvfølgelig også, at vi vil fortsætte det oplysende arbejde omkring erhvervsuddannelserne og åbne flere unge menneskers øjne for, at det er en rigtig god vej at vælge.
+ \sourceatright{\textit{Det Konservative Folkeparti}, $1,03$}
+\end{quotation}
+
+Denne tale fra \textit{“Det Konservative Folkeparti”} er et meget illustrerende eksempel på nogle af de udfordringer erhvervsuddannelserne har stået overfor i senere tid\footnote{Talen er fra 2010.}.
+Man skal imødekomme arbejdsmarkedets behov for kvalificeret arbejdskraft.
+Og det skal være attraktivt for de \textit{“talentfulde unge”} at søge ind på erhvervsuddannelserne; der ikke skal være for \textit{“en blindgyde”} at regne.
+Dermed er det en god idé, at erhvervsuddannelserne kan give adgang til videregående uddannelser; således at man kan undgå at de unge dobbeltuddanner sig.
+
+Men dog.
+Nu begynder politikere at sadle flere heste på en gang; hvorfor man får reform efter reform; for at afbøde den forrige reforms utilsigtede konsekvenser.
+Skal erhvervsuddannelserne ikke også være en vej til arbejdsmarkedet for de mindre \ldots bogligt engagerede \ldots unge?
+Og hvad med erhvervsuddannelsernes betydning for efter- og videreuddannelse af voksne?
+
+Ud over disse eksempler, der er blevet fremhævet grundet deres relevans for mine undersøgelsesspørgsmål, er der de efterhånden velkendte, beslægtede sociale problemstillinger der er gennemgående.
+\textit{Dansk Folkeparti} vil holde opsyn med de muslimske friskoler.
+Alment boligbyggeri er et tilbagevendende emne, ligesom arbejdsmarkedspolitik og offentlig understøttelse og (ungdoms)kriminalitet.
+
+\begin{figure}
+ \input{../fig/doc_sent_mean_sec_edu.tex} 
+\caption{Taler fra (ungdoms)uddannelses korpus, spredning mellem talernes gennemsnitlige holdningsværdi.}
+\label{fig:sent_doc_mean}
+\end{figure}
+
+\subsubsection{Politikerne spiller det politiske spil}
+Denne gennemgang af en holdningsanalyse over taler omkring uddannelse\footnote{
+Og, igen, en række beslægtede socialpolitiske problemstillinger.} har givet god anledning til at besvare mine undersøgelsesspørgsmål.
+Der synes dog også være tydeligt at se, at politikerne ikke holder sig tilbage for, at spille sit politiske spil.
+Kan man bruge en kommentar til et politisk udspil til at fremhæve sit partis \textit{aldeles fremragende} politiske ståsteder, lader man ikke øjeblikket smuldre mellem fingrene.
+Ligeledes, hvis man kan komme med et spidsfindigt verbalt sværdstik; eller kan fremhæve sin pointe med en sarkastisk bemærkning; er det klart den mulighed man griber.
+
+\subsection{Politikeres holdninger til uddannelse over tid}
+
+Jeg vil nu undersøge, om der er information at hente i at se på udviklingen af politiske holdninger til uddannelse over tid.
+Figur ~\ref{fig:sentspread} viser hvordan politikeres holdninge til mit bredere uddannelseskorpus\footnote{Jeg har valgt det mere generelle uddannelseskorpus til denne undersøgelse, for at imødekomme den noget ujævne fordeling af observationer der forekommer for de tidlige perioder.}
+fordeler sig over tid.
+Trods mit valg af det bredere uddannelseskorpus, er der med det samme meget tydeligt, at der er en mangel på datapunkter i \textbf{1990 --- 01}.
+Et yderligere blik på diagrammet gør det også tydeligt, at langt de fleste ekstreme observationer ligger i perioderne \textbf{2001 --- 14} og \textbf{2014 — 20}.
+
+Dette er selvfølgeligt vigtigt at have med i overvejelserne, når man forholder sig til min gennemgang af holdningsanalyser ovenfor.
+Den store mængde datapunkter for de senere perioder overskygger i denne sammenhæng de tidligere; og giver et noget unuanceret billede for hvad der har været polariserende i uddannelsesdebatten.
+Uden at gentage hele min holdningsanalyse for hver periode, vil jeg nu lave udtræk af talerne med lavest og højest gennemsnitlig holdningsværdi\footnote{
+for at være helt præcis, vil jeg trække taler med en score der er indtil en 3.\ plads fra top og bund for gennemsnitlig holdningsværdi; for at sikre mig et relevant uddrag af data.} 
+for hver periode, og kort drøfte disse.
+
+I \textbf{1978 --- 90} er der især fokus på erhvervsuddannelserne. \textit{Fremskridspartiet} tordner mod uansvarligt ført uddannelsespolitik, uden en \textit{“balance mellem udgift til uddannelsesforbrug og de indtægte vores erhvervsliv har haft mulighed for at skabe”} i en tale med en gennemsntlig holdningsscore på $-0.21$.
+\textit{Radikale Venstre} taler varmt (score $0,69$) om et fokus på HF, hvor der må \textit{“være en vigtig målsætning at hf, der ikke mindst søges af kvinder, er en almen og studieforberedende uddannelse og en reel alternativ til studentereksamen”}
+
+For perioden \textbf{1990 --- 01} taler \textit{Socialdemokratiet} imod \textit{Venstre} i kontekst af religionsundervisning i folkeskolen: \textit{“jeg synes man skulle læse grundtvig en gang mere i venstre hvis orde livsoplysning foran kristendomsundervisning kunne skabe så stor kvababbelse”}; med den laveste score for perioden på $0,04$.
+Dette er nok et eksempel på, at en lav holdningsscore nogle gange siger mere om konteksten for talerne end politikernes synspunkter omkring et emne.
+Blant de positive taler for perioderne er der repræsentanter fra flere partier der taler varmt om en udvikling af erhvervsuddannelserne; i kontekst af AMU-centre, den fri ungdomsuddannelse og erhvervsakademierne.
+
+Når vi kommer til \textbf{2001 --- 14}, er der mange gengangere fra min første gennemgang af holdningsanalyser.
+I forlængelse af denne trend, fremlægger \textit{Socialdemokratiet} at realkompetencer fra produktionsskoler burde anerkendes med et kompetencebevis.
+
+Afslutningsvis, i \textbf{2014 --- 20}, ser vi eksempelvis \textit{Dansk Folkeparti} efterspørge et  \textit{“skærpe tilsyn vi have jo forsøge at få en høring op at stå om bla muslimsk friskole og friskole generelt”}, med en score for hele talen på $0,01$.
+Og blandt de positivt ladede taler, er \textit{Liberal Alliance} og \textit{Alternativet} begge varme fortalere for, et frit skolevalg i Danmark.
+
+Og ja, igen er der en pæn samling af drøftelser omkring andre sociale problematikker --- i alle perioderne.
+
+\begin{figure}
+\begin{adjustwidth}{-1.6in}{-1.5in}
+ \includegraphics{../fig/sent_spread_time_sec_edu.pdf}
+\end{adjustwidth}
+\caption{Spredning over talernes gennemsnitlige holdningsniveau. Taler er organiseret efter mødedato, og er udvalgt på baggrund af min oversigt over politiske blokke.}
+\label{fig:sentspread}
+\end{figure}
+
+Helt overordnet understreger denne lille øvelse, at det er vigtigt at undersøge sit datagrundlag over flere dimensioner.
+Denne historiske gennemgang af holdningspositioner giver et mere nuanceret og bredt billede, end en snæver gennemgang af partiernes yderpositioner.
+

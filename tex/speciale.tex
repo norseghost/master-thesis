@@ -1,0 +1,72 @@
+%!TeX program = lualatex
+\documentclass[a4paper,oneside,openbib,openany,final]{memoir}
+\usepackage[backend=biber,citestyle=verbose-ibid,urldate=short,style=apa]{biblatex}
+\DeclareLanguageMapping{danish}{danish-apa}
+\bibliography{/home/martin/Documents/DPU/.shared/dpu}
+\usepackage[danish]{babel}
+\usepackage{csquotes}
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage{fancyhdr}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usepackage{import}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{url}
+\usepackage{booktabs}
+% \usepackage[strict]{changepage}
+\setmainfont{Apple Garamond}
+\setsansfont{Lucida Sans Unicode}
+\setmonofont{Inconsolata}
+\author{
+  Martin Andreas Andersen\thanks{Stor tak til Katrine, der faciliterede at jeg fik arbejdsro til at fuldføre.} \\
+  Kandidatstuderende, pædagogisk sociologi \\
+Aarhus Universitet\thanks{Og tak til min vejleder, David Reimer, for god sparring undervejs.}}
+\title{
+  Speciale \\
+\sffamily{Et kvantitativt perspektiv på en kvalitativ undersøgelse}}
+\date{11. Oktober 2020}
+\begin{document}
+\setsecnumdepth{section}
+\maxsecnumdepth{section}
+\headstyles{komalike}
+\setfloatadjustment{figure}{\footnotesize\sffamily\centering}
+\setfloatadjustment{table}{\footnotesize\sffamily\centering}
+\captiontitlefont{\normalfont\normalsize}
+\captionnamefont{\normalsize}
+\setlength\epigraphwidth{.8\textwidth}
+\epigraphposition{center}
+\epigraphtextposition{flushleftright}
+% comment these lines to enable header/page numbers 
+
+% \pagestyle{empty}
+% \copypagestyle{part}{empty}
+% \copypagestyle{chapter}{empty}
+
+
+\begin{titlingpage}
+\maketitle
+\end{titlingpage}
+\frontmatter
+\tableofcontents
+\listoftables
+\listoffigures
+\begin{table*}[bp]
+\centering \begin{tabular}{rl}
+    \textbf{Tegnoptælling} & 144.153 anslag \\
+    heraf resumé & 7059 anslag \\
+  \end{tabular}
+\end{table*}
+\newpage
+\mainmatter
+\input{resume.tex}
+\input{indledning.tex}
+\input{baggrund.tex}
+\input{metode.tex}
+\input{analyse.tex}
+\input{konklusion.tex}
+\backmatter
+\printbibliography
+\end{document}

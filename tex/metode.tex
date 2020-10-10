@@ -1,0 +1,364 @@
+\renewcommand*{\afterpartskip}{
+\vfil
+\epigraph{\itshape
+“Når jeg anvender et ord,” sagde Klumpe-Dumpe temmelig hånligt, “så betyder det lige netop, hvad jeg vil have, det skal betyde — hverken mere eller mindre.”
+
+“Men spørgsmålet er,” sagde Alice, “om du kan få ordene til at betyde vidt forskellige ting.”
+
+“Spørgsmålet er,” sagde Klumpe-Dumpe, “hvem det er, der bestemmer — det er det, der er det afgørende.”
+}{Lewis Carroll, \textit{Bag spejlet, og hvad Alice fandt der} (\citeyear{carrollAliceEventyrlandOg1977})}
+}
+
+\part{Metodiske og analytiske overvejelser}\label{part:method}
+
+\chapter{Den algoritmiske sociologis muligheder og begrensninger}
+
+Ord er bærende for meget af den mellemenneskelige kommunikation.
+Nu kan de færreste af os tillade os en så egenrådig tilgang til ords betydning som Klumpe-Dumpe.
+Ord har “kun” den mening, vi I fællesskab lægger i dem.
+Denne mening er ikke nødvendigvis statisk, og nye fænomener nødvendiggør også til tider nye begreber.
+
+Computerbehandling af tekst er netop et sådant nyere fænomen — og afføder begrebet \textit{algoritmisk sociologi}\footnote{
+Den algoritmiske sociologi er ikke begrænset til tekstanalyse. Den kan — og bliver — også brugt til at undersøge og forudsige mønstre i interaktioner på sociale medier, hvor der foreligger store mængder observationelle data \autocite{evansComputationSociologicalImagination2019}}.
+I dette kapitel vil jeg først gennemgå del af den algoritmiske sociologi der omhandler tekstbehandling i grove træk.
+Jeg vil derefter beskrive nogle faldgruber og begrænsninger der skal tages højde for i anvendelsen af denne tilgang.
+Det bliver fulgt op af hvilke muligheder denne tilgang til sociologien åbner op for.
+
+\section{Hvad er computerbehandling af tekst?}
+
+Dette fænomen går gerne under betegnelser som “Natural Language Processing” — eller NLP\footnote{Ej at forveksle med den anden NLP; “NeuroLinguistic Programming”}, eller tekstmining\footnote{Der er semantiske forskelle i disse samlebegreber; men de er ikke gensidigt udelukkende}.
+Muligheden for, at lade computerprogrammer og algoritmer tygge sig igennem store mængder tekst har ikke kun ført til, at Google og Facebook ved mere om dig en din familie gør.
+Den har også banet vej for, en ny måde at udføre sociologi på — den “algoritmiske sociologi” (eng. “computational sociology”) \autocite{evansComputationSociologicalImagination2019}.
+
+Og dagens tæt forbundne informationssamfund har gjort store mængder tekst tilgængelige for (blandt andet) sociologisk analyse --- herunder data fra Folketingstidende.dk; hvor man kan hente folketingets udgivelser siden 1953, ganske elektronisk \autocite{folketingstidendeOmFolketingstidende}.
+
+\citeauthor{evansMachineTranslationMining2016} benytter sig af en spil-metafor for socialt samhandling og interaktion; hvor der er bred enighed om regler, spillere, hvordan der spilles og vindes.
+Her er tekst en form for abstraheret repræsentation af (dele af) dette spil --- en form for aflejret socialt samspil.
+Ved at se på tekst som repræsentationer af social samhandling, kan man udlede aspekter af det sociale spil der har foregået — menneskers handlinger, holdninger, følelser og viden \autocite[s. 22]{evansMachineTranslationMining2016}.
+
+I den sociale verden — hvor individer samhandler i relation til sociale strukturer, kulturelle systemer og symboler, samt materielle ressourcer — udspiller der sig flere sociale spil \autocite[s. 23]{evansMachineTranslationMining2016}.
+Jeg tager del i “spillet om uddannelse” --- på metaniveau endda.
+De politikere, hvis taler kommer igennem møllen af algoritmer, er deltagende i det politiske spil.
+
+\citeauthor{evansComputationSociologicalImagination2019} henviser til, at formen og genren af tekst har indflydelse på hvilke sociale træk aflejres i den, og at de elementer af det sociale spil der kan udledes, afhænger af, hvor tæt forbunde de sociale træk er til teksten (\citeyear[s. 23f]{evansMachineTranslationMining2016}). 
+En SMS-samtale vil kunne gå for at være repræsentativt, eller sågar dækkende, for den overordnede sociale kontekst; hvor en formel, akademisk udlægning til en vis grad holder forskerens personlighed udenfor indholdet.
+
+For dette speciales vedkommende, hvor teksten er referater af folketingstaler, vil jeg antage, at afstanden til det spil, der foregår på den politiske arena er forholdsvis kort.
+Derved ser jeg gode muligheder for, at kunne danne indsigter i det politiske spil i min analyse.
+
+Klumpe-Dumpe antydede, at det er centralt at være den der bestemmer, for at kunne give ord og begreber en særlig betydning.
+Nu er den grundlæggende betydning af ordet \textit{uddannelse} nok ikke særlig flydende over de seneste 4 årtier.
+Den historiske gennemgang i del II viser dog, at de aspekter af begrebet der har haft størst vægt politisk, har ændret sig over tid.
+For at bygge spil-metaforen ud\footnote{Denne udlægning meget frit inspireret af en Bourdieusk fremstilling af magtkampe i et givet felt \autocite[kap.
+1]{bourdieuFieldCulturalProduction2004}}; så har de aktører, der har haft ledende positioner i spillet, haft mulighed for at påvirke brættet og reglerne; og de andre spillere har fulgt med for ikke at falde fra.
+
+\section{Begrænsninger og faldgruber}
+
+Men computeroptællinger over tekst gør ikke en sociologisk undersøgelse i sig selv.
+Computeren har ikke samme sociale og historiske kontekst som beskrevet i \citeauthor{juulDiskurserOmUngdom2013} i \citetitle{juulDiskurserOmUngdom2013}; og kan ikke give en analyse.
+Dette er stadigvæk forskerens ansvar.
+
+De indsigter computeren kan tilbringe, kan også være af en mere overfladisk karakter end hvad den trænede analytiker kan tilvejebringe.
+
+Det er også forskerens ansvar, at ikke falde i faldgruben, hvor man anser algoritmens svar som endegyldige.
+Algoritmens resultater kan ikke være bedre end de data der bliver tilført den\footnote{den såkaldte “garbage in — garbage out” paradigme}.
+I tillæg er der til- og fravalg blandt udvælgelse af data og algoritmer der til en vis grad er overladt til forskerens skøn.
+Mine egne overvejelser herom vil følge løbende i denne del af specialet.
+
+I forlængelse af, at computerens resultater er afhængige af god datakvalitet; kan der også forekomme fejlkilder i dataindsamling og -generering\footnote{
+En tidlig gennemgang af datagrundlaget for dette speciale viste for eksempel, at der tydeligt var en mangel på tidlige taler i det indsamlede materiale, i forhold til hvad der er tilgængeligt på folketingstidende.dk}.
+Der vil også kunne forekomme artefakter i data efter klargøring til behandling --- for eksempel fejloversættelser fra PDF-erne og andre uregelmæssigheder.
+Dette skal der også tages højde for under databehandlingen.
+
+Når tekst behandles som data, vil der også være noget information der går tabt.
+Computerbaserede analyser er blot en anden vej til at reducere kompleksiteten i det undersøgte.
+Konkret vil tekstmining typisk glatte ekstremerne ud, og undertrykke lavfrekvent information.
+Afhængig af metodologi og dataudvælgelse, kan man også bekræfte forudindtagelser lige så vel som at bidrage med ny information \autocite[s. 15]{kwartlerTextMiningPractice2017}.
+Tekstgenkendelsesalgoritmer er også kendte for, at gengive de strukturelle bias der findes i de tekster de er trænet på \autocite{kiritchenkoExaminingGenderRace2018}.
+
+\section{Muligheder}
+
+Strukturerede klassifikationsalgoritmer kan give pålidelige klassifikationer af massive samlinger af tekst, der langt overgår den enkelte forskers kapacitet at gennemgå.
+Og ustrukturerede algoritmer kan afdække strukturer i tekstmaterialet, der kan have sociologisk interesse.
+De seneste års udviklinger indenfor analyseteknologier kan også udlede mening af blandt andet sætningsstrukturer og kontekst, til en vis grad
+\autocite[s. 22]{evansMachineTranslationMining2016}.
+
+Derudover, så giver den store stigning i data i tekstform muligheder for, at inddrage stadig mere komplekse sociale spil i vores analyser.
+Dette kan, for eksempel, gennemføres ved at undersøge og sammenligne tendenser og ændringer over tid \autocite{evansMachineTranslationMining2016}.
+Og udover tekstbehandling kan computeranalyser af registerdata med videre generere nye forklaringsmodeller og analyseprincipper for vores sociale hverdag \autocite{evansComputationSociologicalImagination2019}.
+
+En yderligere styrke ved computerbaseret tekstanalyse er, at undersøgelserne er reproducerbare \autocite[s. 13]{kwartlerTextMiningPractice2017}.
+Koden der ligger bag analysen kan deles, og undersøgelser kan gentages og afprøves uafhængigt.
+
+\chapter{Dataindsamling og analyse}\label{chap:data}
+
+Jeg vi i det følgende beskrive mit datagrundlag, min behandling af dette; og hvilke betydninger dette har for min analyse.
+Jævnfør min diskussion i indledningen omkring det deskriptives værdi; vil jeg bestræbe mig på, at gå omhyggelig og systematisk til værks.
+Jeg undlader dog, for læsbarhedens skyld, at dykke for langt ned i de konkrete formler og sandsynlighedsberegninger der ligger bag ved de anvendte algoritmer.
+
+\citeauthor{evansMachineTranslationMining2016} beskriver tre niveauer indenfor tekstanalyse \autocite[s. 34]{evansMachineTranslationMining2016}:
+\begin{itemize}
+  \item
+    Man kan se på tekstens indhold, overordnet set, og udlede kollektive tankemønstre og beslutningsprocesser.
+    Hvordan bliver indholdet videresendt, og hvordan udvikler det sig?
+    Hvordan udtrykkes mening?
+  \item
+    Man kan se på kommunikationsprocessen, og de mikrointeraktioner der forekommer.
+    Magt, status, og kulturelle artefakter træder frem, og belyser de konstituerende sociale spil.
+  \item
+    Man kan se på signaler i kommunikationen.
+    Hvilke træk foretages der?
+    Hvilke følelser, ideologier, standpunkter og normer er på spil?
+    Hvad kan der udledes af den underliggende sociale verden?
+\end{itemize}
+
+Jeg vil, som nævnt, foretage en gennemgang af folketingstaler fra 1978 indtil ultimo 2019.
+Datasættet\footnote{Typisk kaldet et \textit{korpus} indenfor tekstbehandlingsverdenen} er dannet ved, at hente mødereferaterne i PDF-form fra Folketingstidende, og er derefter blevet omdannet til tekstformat, og forsynet med metadata i form af mødets titel, dato, talerens navn og partiforhold med videre, ved hjælp af computerbiblioteket \citetitle{pedersenFolketinget2019} \autocite{pedersenFolketinget2019}.
+Denne samling \textit{dokumenter} består af ord, der skal udledes mening af.
+Ord grupperes som \textit{tokens}, der kan udgøre ét ord; men kan også være to eller flere efterfølgende ord; eller ord der har n ords afstand mellem hinanden\footnote{\textit{unigrams}, \textit{bigrams}, \textit{n-grams} og \textit{skip-n-grams}, respektive}.
+
+Min undersøgelse er primært på det første af de tre niveauer i tekstanalyse beskrevet ovenfor.
+Jeg ser på tekstens overordnede indhold, og forsøger at drage slutninger omkring kulturelle former for kommunikation.
+Herfra vil jeg undersøge hvilke temaer indenfor uddannelse ses som centrale, og hvordan de italesættes.
+Mit projekt er også primært at klassificere som \textit{tekst-mining}, idet jeg forsøger mig på udledning af mening fra en samling tekst.
+Alle ord rystes sammen, uden hensyntagen til deres placering i dokumentet\footnote{Typisk kaldet en “Bag of Words” model \autocite[s. 28]{kwartlerTextMiningPractice2017}}; og der udarbejdes matematiske modeller over forholdet mellem ord og dokumenter.
+
+\section{Analyseredskaber og kode}
+
+Jeg programmerer mine bearbejdninger og analyser i R, der er et programmeringssprog specifikt udarbejdet til statistisk analyse\autocite{therfoundationWhat}.
+R er en moden programmeringsplatform, med et stort pakkebibliotek tilgængeligt — også til tekstanalyse, samt redskaber til præsentation af data.
+
+Reproducerbare computeranalyser har megen lidt værdi hvis de bagvedliggende mellemregninger ikke er tilgængelige.
+Jeg har derfor en kopi af min kode tilgængeligt på GitHub, til frit brug og offentlig anskuelse \autocite{andersenMasterthesis2020}, i bedste Open Data-tradition\footnote{Datafilerne jeg har bearbejdet er tildelt (meget) store; og dermed noget udfordrende at gemme på GitHub. Datafiler udleveres dog gerne ved forespørgsel.}.
+
+\section{Forhåndsbearbejdning af data}\label{sec:preproc}
+
+Helt grundlæggende deler jeg mit store korpus dokumenter i flere mindre korpora, baseret på tidsperioder.
+Jeg bibeholder dog mit samlede korpus til en overordnet analyse, for sammenligning og kontrol.
+
+Tekstmaterialet kan med fordel simplificeres inden analyse, både for at begrænse kompleksitet i analysen og begrænse tab af information.
+For eksempel er ordene “stemme”, “stemte”, “stemmer” alle relaterede til konceptet at stemme.
+Men uden forhåndsbehandling vil disse blive regnet for at være tre forskellige begreber.
+Jeg har derfor brugt et NLP-bibliotek \autocite{strakaUDPipeUFAL2020} til at foretage såkaldt \textit{lemmatization} ved hjælp af syntaktiske analyser \autocite[s. 28]{kwartlerTextMiningPractice2017}.
+Computeren analyserer hvert ord, og udleder grundstammen --- lemma — af det. I eksemplet ovenfor er grundformen “stem” — og vi kan fange alle omtaler af konceptet at stemme.
+Dog vil man her også muligvis tabe noget information — handlede det mon om “en der stemmer”, eller “vi har nu talt stemmer op”?
+“Stemmer” kan også være lyden af mennesker der taler; og ikke, som man kan formode i en folketingskontekst, en kollektiv beslutningsproces.
+
+En anden vej til at reducere kompleksiteten i tekstmaterialet er, at udelukke ord med lav analyseværdi.
+Tal og tegnsætting kan ofte udelukkes — og er blevet det i dette konkrete tilfælde.
+Dermed er sidetal og så videre ikke medregnet; dog med tab af information i form af datoer og aldersgrupper til følge.
+
+En meget anvendt teknik er at sortere såkaldte \textit{stopord} fra.
+Der findes generelle lister over ord der, på bagrund af formodet lav analyseværdi, kan filtreres ud af dokumenterne inden analyse.
+Men disse lister vil ikke kunne fange domænespecifikke ord af denne karakter; og der er også risiko for, at udelukke mulige meningsfulde analyser på forhånd,\autocite[s. 27]{manningIntroductionInformationRetrieval2008}\footnote{Jeg vender tilbage til stopord;
+og deres analytiske anvendelighed, i del IV.}.
+I folketingstalerne omtales \textit{“regeringen”} og ministre forholdsvis oftere end i daglig tale.
+I stedet for — eller i tillæg til — at jeg på egen hånd vurderer, hvilke ord der skal sorteres fra, kan jeg også her tage en computers evner til at tælle i brug.
+Den kan beregne hvilke ord der forekommer hyppigt eller sjældent; jeg skal derefter “blot” beslutte mig for en tærskelværdi jeg vil vælge ord indenfor.
+
+Begreber der forekommer meget hyppigt eller meget sjældent vil kunne forvrænge en analyse; og gøre det svært at drage meningsfulde konklusioner.
+Derfor sorterer jeg de mest almindelige begreber fra; og også dem, der ikke forekommer ret tit.
+Det gør jeg efter en \textit{tf-idf}\footnote{\textit{text frequency — inverse document frequency} er en beregning der tilskriver tokens en værdi efter hvor hyppigt de forekommer i det samlede korpus.
+Tokens der forekommer i mange eller alle dokumenter vil have en lav \textit{tf-idf}; tokens der findes i færre dokumenter vil have en højere \textit{tf-idf}-score \autocite[s. 29]{silgeTextMiningTidy2017}.} vægtning af tokens pr tale, sorteret de tokens fra, der falder under gennemsnitsværdien af \textit{tf-idf}-score\footnote{Jeg kom frem til at bruge gennemsnitsværdien som nedre tærskel efter en afprøvning af forskellige værdier herfor; hvor andre tilgange overvejende tog for meget information væk.} for \textit{tf-idf}.
+Dermed har jeg udeladt tokens der forekommer meget hyppigt i min samling korpora, og vil have lav værdi i forhold til at adskille dokumenter fra hinanden.
+For at udelukke ord der forekommer meget sjældent — typisk tekstkonverteringsfejl og lignende — har jeg derefter udeladt de tokens, der er i de højeste to promille for \texttt{tf-idf} af de resterende dokumenter.
+
+Efter jeg har genereret \textit{tf-idf} værdier for tokens i mine korpora, laver jeg et \textit{document-term matrix} over disse.
+Et \textit{document-term matrix} er en krydstabel over tokens og dokumenter; hvor der markeres, hvorvidt et token forefindes i et dokument.
+Også her kan datasættets kompleksitet reduceres, ved at fjerne de termer, der ikke findes i ret mange dokumenter.
+
+Som nævnt ovenfor, er en konsekvens af brug af disse teknikker en udviskning af grænseværdier og tab af data i yderpositioner.
+En overdreven ihærdighed i anvendelse kan bidrage til, en upålidelig analyse i sidste ende.
+
+Jeg vil derfor igen understrege, at denne forhåndsbearbejdning er og vil altid være baseret på forskerskøn i forhold til det konkrete datasæt.
+Det er agtpåliggende for forskeren, at navigere i de mange muligheder — for eksempel, ved at prøve forskellige grenseværdier og se, hvilke analytiske muligheder der åbnes op eller udelukkes.
+Forskellige undersøgelsesspørgsmål vil kræve forskellige tilpasninger.
+Det bliver ikke mere objektivt blot fordi en computer er sat til at arbejde på det!
+
+\subsection{Mit datasæts særegenheder}
+
+En gennemgående udtalelse indenfor databehandling er, at “data er rodete”\footnote{Se blandt andre \citeauthor{wickhamTidyData2014}, (\citeyear{wickhamTidyData2014}) for en R-centreret tilgang til at imødekomme dette fænomen.}.
+For at gøre det ekstra spændende, er de forskellige rå data rodede på hver sin måde.
+For indeværende opgave er data overvejende pænt forberedt, og forsynet med et rigt sæt metadata.
+Metadata er nyttig for at lave klassifikationer og undergrupperinger for analyse.
+Jeg kan for eksempel se, hvem der taler, og hvilket parti denne tilhører, hvornår talen er fra, og hvilken regeringsperiode det er tale om.
+
+Dog har jeg bemærket:
+\begin{itemize}
+  \item
+    Tekstkonverteringsfejl, for eksempel i form af ord der deles over linjeskift der ikke genkendes; ord der er indlæst med fejlstavelser (ofte til uigenkendelighed).
+  \item
+    Gentagne sidehoveder og sidefødder i talerne.
+  \item
+    Som tidligere nævnt, var en stor del af taler fra før 1975 ca enten ikke til stede; eller også manglede de relevant metadata.
+  \item
+    Der er meget formalia i et folketingsmøde, hvilket øger forekomsten af enkelte begreber (\textit{“vedtage beslutning”}, for eksempel).
+  \item
+    Dette medfører også, at spredningen af termer over dokumenter er forskøvet ret kraftigt til venstre, med mange forholdsvis lave vægtninger for \texttt{tf-idf} — det vil sige; der er mange begreber der forekommer i mange dokumenter.
+  \item
+    Denne forholdsvis store homogenietet betyder, at overvejelser omkring skæringspunkter og grænseværdier er svære at kvalificere programmatisk\footnote{Jeg uddyber dette med eksempler i mit analyseafsnit}.
+  \item
+    “Huller” og formateringsfejl i indsamling og generering af metadata, som for eksempel partitilhørighed.
+\end{itemize}
+
+\chapter{Analysestrategi}\label{chap:strategy}
+
+Jeg vil i det følgende gennemgå min tilgang og strategi for at finde mening i mit (meget store) datamateriale.
+Først med en oversigt over de overordnede trin, og derefter en drøftelse af mine overvejelser for disse. 
+
+\section{Overordnet plan for analysen}\label{sec:plan}
+
+\autocite[s. 17]{kwartlerTextMiningPractice2017} beskriver 6 trin for analyse af tekst\footnote{Disse
+  trin er i øvrigt udmærkede til de fleste slags undersøgelser}:
+\begin{enumerate}
+  \item
+    Definer problemet, og de specifikke mål;
+  \item
+    Identificer teksten som skal behandles;
+  \item
+    Skab orden i tekstmaterialet;
+  \item
+    Lav udtræk af relevante aspekter af data;
+  \item
+    Analyser;
+  \item
+    Opnå nye indsigter;
+\end{enumerate}
+
+I løbet af min analyse vil jeg bevæge mig gennem disse trin flere gange, med forskellige formål og indhold.
+Flere af iterationerne vil være tiltagende specifikke, idet jeg kan bruge resultater af de foregående runder som grundlag for de næste.
+Jeg vil også bevæge mig i mellem de overordnede niveauer efter \autocite{evansMachineTranslationMining2016} som er beskrevet ovenfor.
+
+Jeg vil:
+
+\begin{itemize}
+  \item
+    dele data op i perioder
+  \item
+    for hver periode,
+    \begin{itemize}
+      \item
+        generere emner på baggrund af tekst-indholdet i de enkelte taler
+      \item
+        udvælge emner der ser ud til at omhandle uddannelse generelt og (eventuelt) erhvervsuddannelse specifikt
+      \item
+        i disse emner vil jeg, 
+        \begin{itemize}
+          \item
+            se på tendenser i perioderne
+          \item
+            generere nye emner med dette subset
+          \item
+            se efter sammenhænge på baggrund af analyser på tværs af partiforhold, regeringsmagt, talerens (formodede) intentioner, med videre.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\subsection{Tekst bliver data}
+
+Forskellige trin i denne plan vil stille forskellige krav til at skabe orden i tekstmaterialet, for at gøre den anvendelig til analyserbare data.
+For eksempel, så vil opdeling i grove kategorier til videre analyse kunne anvende en opdeling i enkelte ord, for at fange overordnede trends.
+En mere granuleret analyse derimod, vil måske hellere se på to eller tre ord sammen; eller inddrage sproglige analyser for at udlede metadata på sprogniveau.
+
+\textit{Unigrams} — et ord af gangen — giver et godt billede af frekvenser.
+Jeg benyttede  denne tilgang i de første spadestik af min eksplorative undersøgelse.
+Dette glatter dog kontekst ud.
+“Uddannelse” nævnes måske en del gange — men er man kritisk eller positiv?
+Dette forekom mig som et noget spinkelt grundlag for en analyse.
+
+For næste trin i analysen, hvor jeg vil finde frem til dokumenter der omhandler “uddannelse” på baggrund af de genererede emner fra første trin, foretager jeg analysen med to efterfølgende ord — \textit{bigrams}\footnote{Jeg påbegyndte en udforskning af tre efterfølgende ord (\textit{trigrams}), men blev nødt til at springe fra grundet den voldsomme mængde computerressourcer dette krævede.}.
+Dermed bibeholdes noget kontekst i de videre analyser.
+Jeg vil udforske mit datasæt både med og uden stopord, for at se hvilken tilgang er mest givende for mine videre analyser.
+
+\subsection{Perioder}\label{sec:periods}
+Jeg ønsker at se og sammenligne udvikling i diskurser omkring erhvervsrettede og akademisk orienterede ungdomsuddannelser over tid.
+Derfor nødvendigt vælger jeg at dele data ind i perioder til sammenligning.
+
+For at opsummere: jeg vil se på diskurser omkring erhvervsuddannelser siden 1978, inddelt i følgende perioder:
+
+\begin{itemize}
+  \item
+    \textbf{1978 — 1990:} Uddannelse i fokus
+  \item
+    \textbf{1990 — 2001}: Målstyring og selvstyre, under markedsvilkår
+  \item
+    \textbf{2001 — 2014:} Ansvar for egen læring, med individet i fokus
+  \item
+    \textbf{2014 — 2020} Reformernes tidsalder
+\end{itemize}
+
+Som nævnt ovenfor, viste de første gennemgange af data, at mængden af taler fra før 1978 var meget lille i forhold til de efterfølgende perioder — det vil sige, knap 9000 i perioden 1956--68 og omkring 130 000 taler fra 1968--78.
+Denne forskel i omfang vil gøre eventuelle statistiske sammenligninger meget tvivlsomme, i bedste fald.
+Jeg starter derfor mine undersøgelser fra 30. august 1978, hvilket er tiltrædelsesdato for regeringen Anker Jørgensen III, og kort efter indførelsen af EFG på landsplan.
+
+Jeg tager udgangspunkt i centrale hendelser i uddannelses\~historisk sammenhæng; og justerer derudover periodernes grænser til at falde sammen med regeringsperioder.
+Dermed har jeg mulighed for, at gennemføre analyser på baggrund af regeringsmagt kontra opposition, for eksempel.
+Dette er ikke den eneste gyldige opdeling\footnote{Man kunne, for eksempel, også have sat et skæringspunkt omkring 2005--2009 i stedet for i 2014; og dermed opnået lidt mere homogene tidsperioder videre i analysen. Jeg er dog blevet “fanget” af tidlige beslutninger, til en vis grad; og blev ikke bevidst dette i tide til at sadle om}.
+Man kunne også gerne delt data op i årtier — 59erne, 70erne og så videre.
+Dette ville give perioder af ensartet længde, samt at man ikke behøver at tage stilling til hvilke år perioderne skal tilhøre.
+Det ville dog blive sværere at afdække eventuelle diskursændringer omkring specifikke uddannelseshistoriske hændelser.
+
+\subsection{Udledning af emner i det samlede korpus}
+
+Jeg sidder nu med ca. 740,000 folketingstaler, uden at (kunne) vide, hvorvidt en given tale er relevant for min analyse.
+Mit første skridt vil være, at foretage en grovsortering, for at kunne finde taler der kunne være nyttige at se nærmere på.
+Dette er en uoverskuelig opgave at gøre manuelt.
+Men computeren vil gerne lave denne slags beregninger.
+
+\subsubsection{LDA}
+Den algoritme jeg benytter mig af i denne del af processen er \texttt{LDA}\footnote{\texttt{LDA} står for \textit{Latent Dirichlet Allocation}, og er beskrevet af \citeauthor{bleiLatentDirichletAllocation2003} (\citeyear{bleiLatentDirichletAllocation2003}). Kort fortalt: Dokumenter består af en blanding emner --- for eksempel “uddannelse”, “indvandring”, “sundhed”; og emner er en blanding tokens --- for eksempel “skolevalg”, “videregående”, “ungdom” for emnet “uddannelse”. Tokens kan godt gå igen i emner; men med forskellig vægtning og forskellige ord omkring sig \autocite[s. 86]{silgeTextMiningTidy2017}
+}
+der giver en beregning på, hvor sandsynligt der er, at et token er en del af et givet emne.
+Alle tokens tildeles alle emner, med forskellige scores per emne.
+Ved at se på, hvilke dokumenter der indeholder tokens med højest vægtning for et givet emne, kan man udarbejde dokumentklynger.
+Hvor mange tokens per emne man medregner vil, igen, være op til forskerskøn.
+Antallet emner til en LDA-algoritme skal dog specificeres på forhånd.\footnote{Dette er en såkaldt ikke-superviseret tilgang til tekstanalyse --- andre tilgange baserer sig på, at computerprogrammet ved noget om strukturen af data, for eksempel ved tilførelse af annotationer inden analyse}.
+
+\subsubsection{Hvor mange emner er relevant?}
+Næste trin i grovsorteringen vil derfor være, at finde antallet emner at analysere ud fra. 
+Dette kan biblioteket \texttt{ldatuning} til R hjælpe med, der kan sammenholde forskellige beregninger til udvælgelse af antal emner i et ellers ukendt korpus\autocite{nikitaSelectNumberTopics2016}.
+
+Derefter udvælger jeg et antal emner der virker fornuftigt på baggrund af denne proces,
+og udforsker indholdet af de forskellige computergenererede emner\footnote{
+Til denne eksplorative proces tager jeg biblioteket \texttt{LDAvis} i brug.
+Dette program udarbejder en interaktiv webside, hvor man kan se,
+hvilke tokens er fremtrædende i hvilke emner \autocite{sievertCpsievertLDAvis2020}.
+Den interesserede læser kan finde frem til mine generede visualisationer på min blog. \autocite{andersenSelectedAssignmentsAarhus2020}}.
+Jeg noterer, hvilke emner der eventuelt ser ud til at omhandle uddannelse, og tager dokumenter fra disse fra for videre analyse.
+
+\subsection{Generation af emner indenfor uddannelse}
+Med en samling af dokumenter, der, ud fra ovennævnte proces, jeg antager at omhandle uddannelse på den ene eller anden måde, har jeg nu opfyldt målet om, at identificere tekst til videre analyse.
+Jeg gentager nu processen ovenfor med en mindre samling dokumenter, for at se om der er emner at udlede indenfor disse.
+Herfra vil jeg gentage processen med, at forsøge trække dokumenter fra, der har særlig relevans for mit fokusområde omkring erhvervs- og ungdomsuddannelse.
+
+\subsubsection{Dokumenterne indenfor uddannelse udforskes}
+Forudsat den ovenstående proces er vellykket, har jeg nu en lidt mere overskuelig samling dokumenter, der i større eller mindre grad omhandler (ungdoms)uddannelse.
+Dette mindre korpus vil jeg udforske videre; med henvisning til mine undersøgelsesspørgsmål fra specialets del I.
+
+Min \textit{topic model} giver mig en pejlepind til, hvilke folketingstaler er særligt relevante.
+I denne proces vil jeg støtte mig til min historiske gennemgang og undersøge, i hvilket omfang, jeg kan genkende de historiske tendenser, og dermed have et kvalificeret grundlag til udvælgelse af emner, og folketingstaler herunder.
+
+En del af mine spørgsmål omhandler politiske holdninger over tid. Til at udforske denne dimension vil jeg anvende \texttt{Wordfish}-algoritmen efter \citeauthor{slapinScalingModelEstimating2008} (\citeyear{slapinScalingModelEstimating2008}; som implementeret i biblioteket \texttt{austin} for R \autocite{loweAustinPackageDoing2019}.
+Denne algoritme, præsenteret for en samling dokumenter, tildeler hvert dokument en venstre — højre vægtning baseret på relative ordfrekvenser.
+Jeg vil afprøve, i hvilken grad denne algoritme (der er afprøvet på politiske partiprogrammer) arter sig i mødet med poltiske taler.
+Derudover vil jeg sammenligne en \textit{Wordfish}-beregning over enkelte partiers seneste politiske uddannelsesudspil, og deres taler omkring uddannelse i regeringen Mette Frederiksen.
+
+Jeg ønsker også at gå dybere i min analyse, og drage indsigter ud over hvad fremgår af komplicerede metoder til at tælle ord på.
+Jeg vil gerne undersøge \textit{tonen} i talerne.
+Hvordan forholder politikerne sig, når de taler om uddannelse?
+Dette kaldes \textit{sentiment analysis}\footnote{En dansk oversættelse vil nok være “holdningsanalyse”}; og jeg vil benytte biblioteket \texttt{SENTIDA}, der netop er udviklet\footnote{Dette er også et produkt af studerende på Aarhus Universitet} til dansk holdningsanalyse \autocite{lauridsenSentida2020}.
+Jeg vil undersøge yderværdier for taler og sætningers holdningsscore; og bruge disse som afsæt til en mere tekstnær analyse.
+
+\chapter{En politologisk undersøgelse i en pædagogisk-sociologisk kontekst}\label{chap:edusoc}
+
+Alt dette arbejde skal have et formål.
+Jeg vil sammenholde mine undersøgelsesspørgsmål med de trends der er beskrevet i del II, og se, i hvilken grad jeg kan følge med i, at historien bliver skabt, så at sige.
+
+Jeg vil også bruge resten af dette speciale til, at udforske dette krydsfelt af politisk og pædagogisk sociologi jeg har bevæget mig ud i.
+Hvilke politiske fokusområder og problemstillinger er tæt forbundne med (ungdoms)uddannelse, og hvad kan det betyde, for hvordan man griber videre forskning an?
+
+Jeg vil også gøre mig en ære i, at mine beskrivelser er fyldestgørende.
+En solid beskrivelse kan have en vis forklarende kraft i sig selv.
+Men for at kunne inspirere og underbygge fremtidigt pædagogisk-sociologisk forskning; både i krydsfeltet med den politiske sociologi, såvel som med \textit{“big data”} og tekstmining som metodologisk udgangspunkt; er det agtpågivende, at jeg er grundig om omhyggelig i mine beskrivelser.
+Ikke mindst, der hvor jeg oplever, at andre metodologiske greb end dem jeg har taget vil kunne være fornuftige for fremtidige forskere.
+

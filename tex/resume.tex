@@ -1,0 +1,90 @@
+\markboth{Resumé}{Resumé}
+\begin{abstract}
+
+\section*{Text mining educational policy discourse in a Danish context}
+
+In this thesis, I apply the tools of \textit{computational sociology} to glean insights into the political discourse on educational policy in Denmark.
+Within the field of educational policy generally; I aim to focus on secondary education\footnote{High school, more or less; what in Denmark is called “Gymnasium” or “Erhvervsuddannelse”}; and specifically the tension between the vocational and academic tracks in the Danish educational system.
+This thesis, in addition to introducing computational sociology into Danish educational sociology, also draws heavily on political science for perspectives and analytical techniques.
+
+I am basing my research on transcripts from the floor of the Danish Parliament; from the fall of 1978 through the end of 2019.
+This is an extremely large corpus; even after trawling for relevant documents.
+The computer's capacity for inspecting and wrangling this large dataset is essential for the viability of my research.
+This is a particular strength in extending qualitative research with a computational approach \autocite{evansMachineTranslationMining2016}.
+
+\section*{Inequality and inequity in Danish educational outcomes}
+
+A cohort study on the implications of tracking in Denmark indicates that there is a fair bit of correlation between socioeconomic status and lifelong earnings and which track in the educational system one is placed \autocite{felsbirkelundStructureCausesConsequencesInprogress}.
+Furthermore, there is also a correlation on the socioeconomic status of ones parents and which track one ends up pursuing.
+
+A general trend of higher general levels of education in Denmark over the past decades notwithstanding, the topic of equality and equity in educational outcomes remains a topic of intense political discussion.
+
+Danish educational policy has had a stated goal of eliminating the so-called “remainder cohort”\footnote{The 8---or---so percent of a given youth cohort with only compulsory education and no gainful employment} since at least the 1990s; where then Minister for Education Ole Vig Jensen presented “Education for all” in \citeyear{jensenRedegorelseR319931993}.
+This was further expanded to include a focus on higher education in the early 2000s.
+These policies seem to have had knock---on effects for the vocational educations.
+In \citeyear{simonsenLadOsGore2016} the leaders of two of the largest unions in Denmark went so far as warning about Denmark becoming an “over---educated society”; projecting a severe shortage of skilled tradesmen.
+
+\subsection*{Tensions in Danish secondary education}
+There is a tendency among Danes to devalue vocational education.
+According to \citeauthor{danmarksstatistikErhvervsuddannelserDanmark20192019} a scant majority had a positive impression of Danish vocational education;  \autocite{danmarksstatistikErhvervsuddannelserDanmark20192019}, with a 10\% declining rate of enrollment after completed compulsory education from 2001 to 2013.
+The declining enrollment rate among vocational education is compounded by a markedly higher ratio of dropouts compared to the academic tracks \autocite{danskegymnasierFuldforelseOgKarakterer2019}.
+
+In addition to the tensions between the academic and vocational tracks, the vocational educations in Denmark have their own internal tensions:
+\begin{itemize}
+  \item
+    a lack of apprenticeships available \autocite[s. 10]{danmarksstatistikErhvervsuddannelserDanmark20192019};with remedial school education seen as less valuable
+\item
+    a change in the demographic among the vocational schools; as the more academically gifted youths gravitate toward the academic tracks, the vocational institutions are “saddled” with increasingly more academically---challenged students \autocite[s. 365f]{aarkrogRummelighedOgSammenhaeng2003} 
+  \item
+    somewhat at odds with the previous, there is a long tradition for vocational education to be a path toward higher education \autocite[s. 47ff]{bondergaardHistoricalEmergenceKey2014},  
+\end{itemize}
+
+\subsection*{Knowledge gaps}
+I hope to gain insights into a broad array of policy dimensions; such as:
+\begin{itemize}
+  \item
+    period---specific discourse around (vocational) education policies
+  \item
+    per---party policy dimensions
+  \item
+    level of political agreement over time
+\end{itemize}
+
+\section*{Methodology — a quantitative perspective on qualitative research}
+I will be performing comparative time---series analysis on the parliamentary speeches, as well as sentiment analysis, where I move closer to selected texts.
+These are then fed through the unsupervised classification algorithm \texttt{LDA} \autocite{bleiLatentDirichletAllocation2003}; to discern speeches pertaining to educational policy.
+I follow up with applying the \textit{Wordfish} algorithm by \citeauthor{slapinScalingModelEstimating2008} (\citeyear{slapinScalingModelEstimating2008}) to determine political positioning on a left---right axis; as well as sentiment analysis facilitated by the \textit{SENTIDA} library for R \autocite{lauridsenSentida2020}.
+
+Although I use methods that treats the text quantitatively; I maintain a largely qualitative focus.
+The parameters given and results obtained need to be evaluated by the researcher; and understood through their biases.
+The sentiment analysis, in particular, is supported with contextual reading of the surrounding text.
+
+\section*{Insights gathered}
+
+\subsection*{Historical trends}
+The source material reflects the historical record as it is being written.
+As such, the generated topic models clearly reflect discussions of reforms and initiatives that have been influential upon Danish vocational and academic secondary education.
+The recognition of these historical trends also informs data extraction, and allows me to subset a corpora of over 700'000 parliamentary speeches to a much more manageable hundreds to low thousands range.
+
+\subsection{Party-wise policy dimensions}
+There is a clear right-to-left skew in the relative positions of both political parties and political blocs (as pertains to (secondary) education), mapping more or less to an instinctual assumption of these parties.
+Interestingly; graphing Danish political blocs to government periods shows quite a lot of variance over time.
+This may be reflective of a lack of sufficient data for s observation; however, I propose an alternate hypothesis for further investigation:
+To what extent is political positioning and posturing in Parliament in opposition to power, and how much is it a reflection of stated political principles?
+Controlling the most recent speeches against the current party programs, there is a rather large amount of variance, that also would warrant further investigation.
+\subsection{Politicians gonna politick}
+While doing my sentiment analysis, it became clear that politicians are playing a political game.
+Responding to political proposals with an exhortation of the impeccability of the policies of ones own party, cheap shots and sarcastic remarks:
+it is all fair game.
+However, it is also clear that politicians are not blind to the struggles and challenges facing the educational system; even if they do not always agree on framing paradigms and proposed solutions.
+
+\section*{Going forward}
+
+This is a thesis firmly on the descriptive side of sociological research.
+I hope to inspire and inform further work utilizing computational sociology to wrangle the ever-ubiquitous large data that has become available in recent years.
+
+A particularly interesting avenue for further research is investigating the connections between educational policy and other social issues.
+Speeches pertaining to affordable housing, adolescent crime and substance abuse, for instance, were consistently intertwined with topics related to education in my models.
+
+\end{abstract}
+\markboth{Resumé}{Resumé}
